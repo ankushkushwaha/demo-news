@@ -1,17 +1,16 @@
-//
-//  GlobalNewsApp.swift
-//  GlobalNews
-//
-//  Created by Ankush on 20.2.2026.
-//
 
 import SwiftUI
 
-//@main
-//struct GlobalNewsApp: App {
-//    var body: some Scene {
-//        WindowGroup {
-//            ContentView()
-//        }
-//    }
-//}
+@main
+struct GlobalNewsApp: App {
+    @StateObject var container = AppContainer()
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView(
+                viewModel: container.makeNewsViewModel()
+            )
+                .environmentObject(container)
+        }
+    }
+}

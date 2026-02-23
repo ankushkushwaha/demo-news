@@ -13,7 +13,7 @@ class ObserveLocationUseCaseImpl: ObserveLocationUseCase {
 
     private let locationRepository: LocationRepository
 
-    init(locationRepository: LocationRepository = LocationRepositoryImpl()) {
+    init(locationRepository: LocationRepository) {
         self.locationRepository = locationRepository
         
         Task {

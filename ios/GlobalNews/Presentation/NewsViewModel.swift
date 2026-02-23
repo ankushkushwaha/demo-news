@@ -17,8 +17,8 @@ final class NewsViewModel: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     init(
-        fetchNewsUseCase: FetchNewsUseCase = FetchNewsUseCaseImpl(),
-        observeLocationUseCase: ObserveLocationUseCase = ObserveLocationUseCaseImpl()
+        fetchNewsUseCase: FetchNewsUseCase,
+        observeLocationUseCase: ObserveLocationUseCase
     ) {
         self.fetchNewsUseCase = fetchNewsUseCase
         self.observeLocationUseCase = observeLocationUseCase

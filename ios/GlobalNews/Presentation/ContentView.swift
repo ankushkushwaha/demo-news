@@ -62,12 +62,16 @@ struct NewsRowView: View {
 }
 
 struct ContentView: View {
-    @StateObject private var vm = NewsViewModel()
+    @StateObject private var viewModel: NewsViewModel
 
+    init(viewModel: NewsViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
-                switch vm.currentState {
+                switch viewModel.currentState {
                 case .idle(let location):
                     if let location {
                         HStack {
@@ -89,7 +93,7 @@ struct ContentView: View {
                     }
                 }
                     List {
-                        ForEach(vm.items) { item in
+                        ForEach(viewModel.items) { item in
                             NewsRowView(item: item)
                                 .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
                                 .listRowBackground(Color.clear)
@@ -142,7 +146,7 @@ extension View {
 struct SkeletonCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            RoundedRectangle(cornerRadius: 5).fill(Color(.systemGray))
+            RoundedRectangle(cornerRadius: 5).fill(Color(.systemGray5))
                 .frame(maxWidth: .infinity).frame(height: 14)
             RoundedRectangle(cornerRadius: 5).fill(Color(.systemGray5))
                 .frame(maxWidth: 260).frame(height: 14)
@@ -256,17 +260,6 @@ struct ErrorView: View {
                     .foregroundColor(.white)
                     .clipShape(Capsule())
             }
-        }
-    }
-}
-
-// MARK: - App Entry Point
-
-@main
-struct IndiaNewsApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
         }
     }
 }

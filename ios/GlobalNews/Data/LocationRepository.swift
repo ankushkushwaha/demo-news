@@ -47,7 +47,7 @@ struct LocationRepositoryImpl: LocationRepository {
     }
 }
 
-enum LocationRepositoryError: Error, LocalizedError {
+enum LocationRepositoryError: Error {
     case permissionDenied
     case unavailable
     case unknown(Error)
