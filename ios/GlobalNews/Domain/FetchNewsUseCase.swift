@@ -1,10 +1,10 @@
 import Combine
 
 protocol FetchNewsUseCase {
-   func execute(topic: String?, location: UserLocation) async throws -> [NewsItem]
+    func execute(topic: String?, location: UserLocation?) async throws -> [NewsItem]
 }
 
-class FetchNewsUseCaseImpl: FetchNewsUseCase {
+final class FetchNewsUseCaseImpl: FetchNewsUseCase {
     
     private let newsRepository: NewsRepository
 
@@ -14,17 +14,12 @@ class FetchNewsUseCaseImpl: FetchNewsUseCase {
         self.newsRepository = newsRepository
     }
         
-    func execute(
-        topic: String? = nil,
-        location: UserLocation
-    ) async throws -> [NewsItem] {
-        
+    func execute(topic: String?, location: UserLocation?) async throws -> [NewsItem] {
         let query = NewsQuery(
-            q:  topic ?? location.countryName ?? "us",
-            hl: location.hl ?? "en-US",
-            gl: location.gl ?? "US"
+            q:  topic ?? location?.countryName ?? "world",
+            hl: location?.hl ?? "en-US",
+            gl: location?.gl ?? "US"
         )
-
         return try await newsRepository.fetchNews(query: query)
     }
 }

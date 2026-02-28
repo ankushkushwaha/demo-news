@@ -6,12 +6,14 @@ protocol LocationRepository {
   func getLocation() async throws -> UserLocation
 }
 
-struct LocationRepositoryImpl: LocationRepository {
+final class LocationRepositoryImpl: LocationRepository {
 
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
         service.locationUpdatePublisher
             .map { $0.toLocation() }
-            .mapError { mapToRepositoryError($0) }
+            .mapError { [weak self] error in
+                self?.mapToRepositoryError(error) ?? .unknown(error)
+            }
             .eraseToAnyPublisher()
     }
 

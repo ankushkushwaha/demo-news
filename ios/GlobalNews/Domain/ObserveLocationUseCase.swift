@@ -5,7 +5,7 @@ protocol ObserveLocationUseCase {
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> { get }
 }
 
-class ObserveLocationUseCaseImpl: ObserveLocationUseCase {
+final class ObserveLocationUseCaseImpl: ObserveLocationUseCase {
     
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
         locationRepository.locationUpdatePublisher
@@ -20,5 +20,4 @@ class ObserveLocationUseCaseImpl: ObserveLocationUseCase {
             try? await locationRepository.getLocation()
         }
     }
-    
 }
