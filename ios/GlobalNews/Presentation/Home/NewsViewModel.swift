@@ -82,7 +82,7 @@ final class NewsViewModel: ObservableObject {
                 self.items = items
                 currentState = .idle(location.locationName)
             } catch is CancellationError {
-                // Handle cancelled task here
+                // Handle cancelled task here if needed
                 print("task cancelled")
             } catch let error as NewsRepositoryError {
                 currentState = .error(error.message)

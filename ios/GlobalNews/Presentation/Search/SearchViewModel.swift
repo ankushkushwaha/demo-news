@@ -83,7 +83,7 @@ final class SearchViewModel: ObservableObject {
                 items = results
                 currentState = results.isEmpty ? .empty : .idle
             } catch is CancellationError {
-                // Handle cancelled task here
+                // Handle cancelled task here if needed
                print("task cancelled")
             } catch let error as NewsRepositoryError {
                 currentState = .error(error.message)

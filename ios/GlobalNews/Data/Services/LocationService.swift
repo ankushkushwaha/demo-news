@@ -57,7 +57,6 @@ final class LocationServiceImpl: NSObject, LocationService, CLLocationManagerDel
                 do {
                     let dto = try await reverseGeocode(location)
                     subject.send(dto)
-                    print(dto)
                 } catch {
                     subject.send(completion: .failure(.geocodingFailed))
                 }
