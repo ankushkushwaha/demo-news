@@ -3,10 +3,11 @@ import Combine
 
 protocol ObserveLocationUseCase {
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> { get }
+    func attemptToGetLocation() async
 }
 
 final class ObserveLocationUseCaseImpl: ObserveLocationUseCase {
-    
+
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
         locationRepository.locationUpdatePublisher
     }
@@ -15,9 +16,9 @@ final class ObserveLocationUseCaseImpl: ObserveLocationUseCase {
 
     init(locationRepository: LocationRepository) {
         self.locationRepository = locationRepository
-        
-        Task {
-            try? await locationRepository.getLocation()
-        }
+    }
+
+    func attemptToGetLocation() async {
+        _ = try? await locationRepository.getLocation()
     }
 }

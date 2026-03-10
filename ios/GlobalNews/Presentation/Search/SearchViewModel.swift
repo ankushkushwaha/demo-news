@@ -36,6 +36,10 @@ final class SearchViewModel: ObservableObject {
         self.observeLocationUseCase = observeLocationUseCase
         
         bind()
+        
+        Task {
+            await observeLocationUseCase.attemptToGetLocation()
+        }
     }
     
     private func bind() {
