@@ -3,11 +3,11 @@ import Combine
 
 protocol LocationRepository {
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> { get }
-  func getLocation() async throws -> UserLocation
+    func getLocation() async throws -> UserLocation
 }
 
 final class LocationRepositoryImpl: LocationRepository {
-
+    
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
         service.locationUpdatePublisher
             .map { $0.toLocation() }
@@ -16,13 +16,13 @@ final class LocationRepositoryImpl: LocationRepository {
             }
             .eraseToAnyPublisher()
     }
-
+    
     private let service: LocationService
-
-    init(service: LocationService = LocationServiceImpl()) {
+    
+    init(service: LocationService) {
         self.service = service
     }
-
+    
     func getLocation() async throws -> UserLocation {
         do {
             let dto = try await service.fetchLocation()
@@ -36,7 +36,7 @@ final class LocationRepositoryImpl: LocationRepository {
             throw LocationRepositoryError.unknown(error)
         }
     }
-
+    
     private func mapToRepositoryError(_ error: LocationServiceError) -> LocationRepositoryError {
         switch error {
         case .permissionDenied:
@@ -53,7 +53,7 @@ enum LocationRepositoryError: Error {
     case permissionDenied
     case unavailable
     case unknown(Error)
-
+    
     var message: String? {
         switch self {
         case .permissionDenied:
