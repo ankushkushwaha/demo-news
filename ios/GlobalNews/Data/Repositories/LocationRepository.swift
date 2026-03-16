@@ -11,9 +11,7 @@ final class LocationRepositoryImpl: LocationRepository {
     var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
         service.locationUpdatePublisher
             .map { $0.toLocation() }
-            .mapError { [weak self] error in
-                self?.mapToRepositoryError(error) ?? .unknown(error)
-            }
+            .mapError(mapToRepositoryError)
             .eraseToAnyPublisher()
     }
     
