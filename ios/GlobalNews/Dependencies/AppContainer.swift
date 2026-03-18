@@ -38,7 +38,8 @@ final class AppContainer: ObservableObject {
             fetchNewsUseCase: FetchNewsUseCaseImpl(),
             observeLocationUseCase: ObserveLocationUseCaseImpl(
                 locationRepository: makeLocationRepository()
-            )
+            ),
+            scheduler: DefaultTaskScheduler()
         )
     }
     

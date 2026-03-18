@@ -13,7 +13,7 @@ final class NewsViewModel: ObservableObject {
 
     @Published private(set) var currentState: ViewState = .idle(nil)
     @Published private(set) var items: [NewsItem] = []
-    @Published private(set) var bookmarks: Set<NewsItem> = []
+    @Published private var bookmarks: Set<NewsItem> = []
 
     private var task: Task<Void, Never>?
     
@@ -23,29 +23,30 @@ final class NewsViewModel: ObservableObject {
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
     private let fetchNewsUseCase: FetchNewsUseCase
     private let observeLocationUseCase: ObserveLocationUseCase
+    private let scheduler: TaskScheduler
 
     init(
         toggleBookmarkUseCase: ToggleBookmarkUseCase,
         observeBookmarksUseCase: ObserveBookmarksUseCase,
         fetchNewsUseCase: FetchNewsUseCase,
-        observeLocationUseCase: ObserveLocationUseCase
+        observeLocationUseCase: ObserveLocationUseCase,
+        scheduler: TaskScheduler
     ) {
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
         self.observeBookmarksUseCase = observeBookmarksUseCase
         self.fetchNewsUseCase = fetchNewsUseCase
         self.observeLocationUseCase = observeLocationUseCase
+        self.scheduler = scheduler
         
         bind()
         
         Task {
             await observeLocationUseCase.attemptToGetLocation()
         }
-
     }
 
     private func bind() {
         observeLocationUseCase.locationUpdatePublisher
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self else { return }
                 if case .failure(let error) = completion {
@@ -57,7 +58,6 @@ final class NewsViewModel: ObservableObject {
             .store(in: &cancellables)
         
         observeBookmarksUseCase.publisher
-            .receive(on: DispatchQueue.main)
             .assign(to: &$bookmarks)
     }
     
@@ -66,16 +66,16 @@ final class NewsViewModel: ObservableObject {
     }
     
     func toggleBookmark(_ item: NewsItem) {
-        Task {
+        scheduler.schedule { [weak self] in
+            guard let self else { return }
             await toggleBookmarkUseCase.execute(item: item)
         }
     }
     
-    @discardableResult
-    func fetchData(location: UserLocation) -> Task<Void, Never>? {
+    private func fetchData(location: UserLocation) {
         task?.cancel()
 
-        task = Task { [weak self] in
+        task = scheduler.schedule { @MainActor [weak self] in
             guard let self else { return }
 
             currentState = .loading
@@ -95,8 +95,6 @@ final class NewsViewModel: ObservableObject {
                 currentState = .error("Unexpected error occurred")
             }
         }
-
-        return task
     }
 
     deinit {
