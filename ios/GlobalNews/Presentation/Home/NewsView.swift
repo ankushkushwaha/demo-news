@@ -28,8 +28,6 @@ struct DetailView: View {
     }
 }
 
-
-
 struct NewsView: View {
     
     @StateObject var viewModel: NewsViewModel
@@ -60,7 +58,9 @@ struct NewsView: View {
             case .loading:
                 LoadingView()
             case .error(let message):
-                ErrorView(message: message)
+                ErrorView(message: message, retry: {
+                    viewModel.attemptToGetLocation()
+                })
             }
         }
         .background(Color(.systemGroupedBackground)
