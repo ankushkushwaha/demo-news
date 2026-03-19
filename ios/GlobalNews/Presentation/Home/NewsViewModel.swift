@@ -40,6 +40,10 @@ final class NewsViewModel: ObservableObject {
         
         bind()
         
+        attemptToGetLocation()
+    }
+    
+    func attemptToGetLocation() {
         Task {
             await observeLocationUseCase.attemptToGetLocation()
         }
@@ -47,13 +51,14 @@ final class NewsViewModel: ObservableObject {
 
     private func bind() {
         observeLocationUseCase.locationUpdatePublisher
-            .sink { [weak self] completion in
+            .sink { [weak self] result in
                 guard let self else { return }
-                if case .failure(let error) = completion {
-                    currentState = .error(error.message ?? "Unknown error")
+                switch result {
+                case .success(let location):
+                    self.fetchData(location: location)
+                case .failure(let error):
+                    self.currentState = .error(error.message ?? "Unknown error")
                 }
-            } receiveValue: { [weak self] location in
-                self?.fetchData(location: location)
             }
             .store(in: &cancellables)
         

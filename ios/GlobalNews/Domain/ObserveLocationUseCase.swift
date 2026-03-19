@@ -2,13 +2,13 @@
 import Combine
 
 protocol ObserveLocationUseCase {
-    var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> { get }
+    var locationUpdatePublisher: AnyPublisher<Result<UserLocation, LocationRepositoryError>, Never> { get }
     func attemptToGetLocation() async
 }
 
 final class ObserveLocationUseCaseImpl: ObserveLocationUseCase {
 
-    var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
+    var locationUpdatePublisher: AnyPublisher<Result<UserLocation, LocationRepositoryError>, Never> {
         locationRepository.locationUpdatePublisher
     }
 

@@ -46,13 +46,14 @@ final class SearchViewModel: ObservableObject {
         
         let locationPublisher = observeLocationUseCase.locationUpdatePublisher
             .receive(on: DispatchQueue.main)
-            .map { Optional($0) }
-            .catch { _ in Just(nil) }
+            .map { result -> UserLocation? in
+                if case .success(let location) = result { return location }
+                return nil
+            }
             .prepend(nil)
         
         $searchQuery
-            .debounce(for: .milliseconds(500),
-                      scheduler: DispatchQueue.main)
+            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
             .removeDuplicates()
             .combineLatest(locationPublisher)
             .sink { [weak self] searchQuery, location in
