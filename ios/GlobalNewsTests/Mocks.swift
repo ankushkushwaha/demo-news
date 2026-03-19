@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-@testable import GlobalNews
+@testable import News
 
 final class MockFetchNewsUseCase: FetchNewsUseCase {
     var newsItems: [NewsItem]?
@@ -18,6 +18,7 @@ final class MockFetchNewsUseCase: FetchNewsUseCase {
     func execute(topic: String?, location: UserLocation?) async throws -> [NewsItem] {
         callCount += 1
         capturedLocation = location
+                
         if let error {
             throw error
         }
@@ -48,24 +49,25 @@ final class MockObserveBookmarksUseCase: ObserveBookmarksUseCase {
 }
 
 final class MockObserveLocationUseCase: ObserveLocationUseCase {
-    private let subject = PassthroughSubject<UserLocation, LocationRepositoryError>()
-    private(set) var attemptCallCount = 0
+    
+    private let subject = PassthroughSubject<Result<UserLocation, LocationRepositoryError>, Never>()
 
-    var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
+    var locationUpdatePublisher: AnyPublisher<Result<UserLocation, LocationRepositoryError>, Never> {
         subject.eraseToAnyPublisher()
     }
+    private(set) var attemptCallCount = 0
 
     func attemptToGetLocation() async {
         attemptCallCount += 1
     }
 
     func emit(_ location: UserLocation) {
-        subject.send(location)
+        subject.send(.success(location))
     }
     
     // Fixed: only accept LocationRepositoryError
     func emitError(_ error: LocationRepositoryError) {
-        subject.send(completion: .failure(error))
+        subject.send(.failure(error))
     }
 }
 

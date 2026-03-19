@@ -1,7 +1,7 @@
 import Testing
 import Combine
 import Foundation
-@testable import GlobalNews
+@testable import News
 
 struct NewsViewModelTests {
     
@@ -70,7 +70,7 @@ struct NewsViewModelTests {
         fetchUseCase.error = NewsRepositoryError.networkFailure
         
         let location = UserLocation(countryCode: "DE", countryName: "Germany", city: "Berlin", languageCode: "de")
-        
+
         locationUseCase.emit(location)
         
         await scheduler.waitForAllTasks()
@@ -82,19 +82,20 @@ struct NewsViewModelTests {
         }
     }
         
-    @Test func isBookmarked_trueWhenPresent() {
+    @Test func isBookmarked_trueWhenPresent() async {
         let item = makeNewsItem()
         observeBookmarksUsecase.emit([item])
-        #expect(sut.isBookmarked(item))
+        let result = await sut.isBookmarked(item)
+        #expect(result)
     }
 
-    @Test func isBookmarked_falseAfterCleared() {
+    @Test func isBookmarked_falseAfterCleared() async {
         let item = makeNewsItem()
         observeBookmarksUsecase.emit([item])
-        #expect(sut.isBookmarked(item))
+        #expect(await sut.isBookmarked(item))
         
         observeBookmarksUsecase.emit([])
-        #expect(!sut.isBookmarked(item))
-
+        let result = await sut.isBookmarked(item)
+        #expect(result == false)
     }
 }

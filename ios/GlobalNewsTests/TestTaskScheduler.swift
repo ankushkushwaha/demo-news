@@ -1,4 +1,4 @@
-@testable import GlobalNews
+@testable import News
 
 class TestTaskScheduler: TaskScheduler {
     /// If a previous task (task1) is still running when a new task (task2) starts,
