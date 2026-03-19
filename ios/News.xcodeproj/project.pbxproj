@@ -24,9 +24,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AC3084472F48C9D000B974A5 /* GlobalNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlobalNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC3084542F48C9D200B974A5 /* GlobalNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GlobalNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC30845E2F48C9D200B974A5 /* GlobalNewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GlobalNewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC3084472F48C9D000B974A5 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC3084542F48C9D200B974A5 /* NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC30845E2F48C9D200B974A5 /* NewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -85,9 +85,9 @@
 		AC3084482F48C9D000B974A5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC3084472F48C9D000B974A5 /* GlobalNews.app */,
-				AC3084542F48C9D200B974A5 /* GlobalNewsTests.xctest */,
-				AC30845E2F48C9D200B974A5 /* GlobalNewsUITests.xctest */,
+				AC3084472F48C9D000B974A5 /* News.app */,
+				AC3084542F48C9D200B974A5 /* NewsTests.xctest */,
+				AC30845E2F48C9D200B974A5 /* NewsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AC3084462F48C9D000B974A5 /* GlobalNews */ = {
+		AC3084462F48C9D000B974A5 /* News */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC3084682F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "GlobalNews" */;
+			buildConfigurationList = AC3084682F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "News" */;
 			buildPhases = (
 				AC3084432F48C9D000B974A5 /* Sources */,
 				AC3084442F48C9D000B974A5 /* Frameworks */,
@@ -110,16 +110,16 @@
 			fileSystemSynchronizedGroups = (
 				AC3084492F48C9D000B974A5 /* GlobalNews */,
 			);
-			name = GlobalNews;
+			name = News;
 			packageProductDependencies = (
 			);
 			productName = GlobalNews;
-			productReference = AC3084472F48C9D000B974A5 /* GlobalNews.app */;
+			productReference = AC3084472F48C9D000B974A5 /* News.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AC3084532F48C9D200B974A5 /* GlobalNewsTests */ = {
+		AC3084532F48C9D200B974A5 /* NewsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC30846B2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "GlobalNewsTests" */;
+			buildConfigurationList = AC30846B2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "NewsTests" */;
 			buildPhases = (
 				AC3084502F48C9D200B974A5 /* Sources */,
 				AC3084512F48C9D200B974A5 /* Frameworks */,
@@ -133,16 +133,16 @@
 			fileSystemSynchronizedGroups = (
 				AC3084572F48C9D200B974A5 /* GlobalNewsTests */,
 			);
-			name = GlobalNewsTests;
+			name = NewsTests;
 			packageProductDependencies = (
 			);
 			productName = GlobalNewsTests;
-			productReference = AC3084542F48C9D200B974A5 /* GlobalNewsTests.xctest */;
+			productReference = AC3084542F48C9D200B974A5 /* NewsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AC30845D2F48C9D200B974A5 /* GlobalNewsUITests */ = {
+		AC30845D2F48C9D200B974A5 /* NewsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC30846E2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "GlobalNewsUITests" */;
+			buildConfigurationList = AC30846E2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "NewsUITests" */;
 			buildPhases = (
 				AC30845A2F48C9D200B974A5 /* Sources */,
 				AC30845B2F48C9D200B974A5 /* Frameworks */,
@@ -156,11 +156,11 @@
 			fileSystemSynchronizedGroups = (
 				AC3084612F48C9D200B974A5 /* GlobalNewsUITests */,
 			);
-			name = GlobalNewsUITests;
+			name = NewsUITests;
 			packageProductDependencies = (
 			);
 			productName = GlobalNewsUITests;
-			productReference = AC30845E2F48C9D200B974A5 /* GlobalNewsUITests.xctest */;
+			productReference = AC30845E2F48C9D200B974A5 /* NewsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +186,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AC3084422F48C9D000B974A5 /* Build configuration list for PBXProject "GlobalNews" */;
+			buildConfigurationList = AC3084422F48C9D000B974A5 /* Build configuration list for PBXProject "News" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,9 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AC3084462F48C9D000B974A5 /* GlobalNews */,
-				AC3084532F48C9D200B974A5 /* GlobalNewsTests */,
-				AC30845D2F48C9D200B974A5 /* GlobalNewsUITests */,
+				AC3084462F48C9D000B974A5 /* News */,
+				AC3084532F48C9D200B974A5 /* NewsTests */,
+				AC30845D2F48C9D200B974A5 /* NewsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		AC3084562F48C9D200B974A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AC3084462F48C9D000B974A5 /* GlobalNews */;
+			target = AC3084462F48C9D000B974A5 /* News */;
 			targetProxy = AC3084552F48C9D200B974A5 /* PBXContainerItemProxy */;
 		};
 		AC3084602F48C9D200B974A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AC3084462F48C9D000B974A5 /* GlobalNews */;
+			target = AC3084462F48C9D000B974A5 /* News */;
 			targetProxy = AC30845F2F48C9D200B974A5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -407,8 +407,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -453,8 +452,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -498,7 +496,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GlobalNews.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GlobalNews";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/News.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/News";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
@@ -524,7 +522,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GlobalNews.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GlobalNews";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/News.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/News";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
@@ -582,7 +580,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AC3084422F48C9D000B974A5 /* Build configuration list for PBXProject "GlobalNews" */ = {
+		AC3084422F48C9D000B974A5 /* Build configuration list for PBXProject "News" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC3084662F48C9D200B974A5 /* Debug */,
@@ -591,7 +589,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC3084682F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "GlobalNews" */ = {
+		AC3084682F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "News" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC3084692F48C9D200B974A5 /* Debug */,
@@ -600,7 +598,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC30846B2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "GlobalNewsTests" */ = {
+		AC30846B2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "NewsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC30846C2F48C9D200B974A5 /* Debug */,
@@ -609,7 +607,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC30846E2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "GlobalNewsUITests" */ = {
+		AC30846E2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "NewsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC30846F2F48C9D200B974A5 /* Debug */,
