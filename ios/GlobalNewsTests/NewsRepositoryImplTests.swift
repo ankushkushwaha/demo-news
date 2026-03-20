@@ -168,7 +168,7 @@ struct NewsRepositoryImplTests {
 
         let capturingService = QueryCapturingService()
         let repo = await NewsRepositoryImpl(service: capturingService)
-        let query = NewsQuery(q: "AI", hl: "fi-FI", gl: "FI")
+        let query = await NewsQuery(q: "AI", hl: "fi-FI", gl: "FI")
 
         _ = try await repo.fetchNews(query: query)
 
@@ -181,7 +181,7 @@ struct NewsRepositoryImplTests {
 
 // MARK: - Mock
 
-extension NewsRepositoryError: Equatable {
+extension NewsRepositoryError: @retroactive Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
         case (.invalidRequest, .invalidRequest): true
