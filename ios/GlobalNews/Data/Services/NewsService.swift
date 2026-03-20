@@ -5,10 +5,10 @@ protocol NewsService {
 }
 
 final class NewsServiceImpl: NewsService {
-
+    
     private let networkSession: NetworkSession
     private let parser: RSSParser
-
+    
     init(
         networkSession: NetworkSession = URLSession.shared,
         parser: RSSParser = GoogleNewsRSSParser()
@@ -16,7 +16,7 @@ final class NewsServiceImpl: NewsService {
         self.networkSession = networkSession
         self.parser = parser
     }
-
+    
     func fetchNews(query: NewsQuery) async throws -> [NewsItemDTO] {
         guard let url = EndPoints.newsFeed(query).url else {
             throw NewsServiceError.invalidUrl
@@ -24,21 +24,35 @@ final class NewsServiceImpl: NewsService {
 
         do {
             let (data, response) = try await networkSession.data(from: url)
-            
+
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NewsServiceError.invalidResponse
             }
-            
+
             try validateHTTPResponse(httpResponse.statusCode)
-            
             return parser.parse(data: data)
         } catch let error as URLError {
             throw map(error)
+        } catch let error as NewsServiceError {
+            throw error
         } catch {
             throw NewsServiceError.unknown(error)
         }
     }
-
+    
+    private func validateHTTPResponse(_ statusCode: Int) throws {
+        switch statusCode {
+        case 200...299:
+            return
+        case 404:
+            throw NewsServiceError.notFound
+        case 400...499:
+            throw NewsServiceError.clientError(statusCode)
+        default:
+            throw NewsServiceError.serverError(statusCode)
+        }
+    }
+    
     private func map(_ error: URLError) -> any Error {
         switch error.code {
         case .timedOut:
@@ -56,18 +70,6 @@ final class NewsServiceImpl: NewsService {
             return NewsServiceError.networkFailure
         default:
             return NewsServiceError.unknown(error)
-        }
-    }
-    private func validateHTTPResponse(_ statusCode: Int) throws {
-        switch statusCode {
-        case 200...299:
-            return
-        case 404:
-            throw NewsServiceError.notFound
-        case 400...499:
-            throw NewsServiceError.serverError(statusCode)
-        default:
-            throw NewsServiceError.serverError(statusCode)
         }
     }
 }
