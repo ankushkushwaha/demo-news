@@ -1,14 +1,15 @@
 import Foundation
 
 protocol NewsService {
-    func fetchNews(query: NewsQuery) async throws -> [NewsItemDTO]
+    func fetchNews(for query: NewsQuery) async throws -> [NewsItemDTO]
+    func fetchAllNews() async throws -> [NewsItemDTO]
 }
 
 final class NewsServiceImpl: NewsService {
-    
+
     private let networkSession: NetworkSession
     private let parser: RSSParser
-    
+
     init(
         networkSession: NetworkSession = URLSession.shared,
         parser: RSSParser = GoogleNewsRSSParser()
@@ -16,9 +17,17 @@ final class NewsServiceImpl: NewsService {
         self.networkSession = networkSession
         self.parser = parser
     }
-    
-    func fetchNews(query: NewsQuery) async throws -> [NewsItemDTO] {
-        guard let url = EndPoints.newsFeed(query).url else {
+
+    func fetchNews(for query: NewsQuery) async throws -> [NewsItemDTO] {
+        try await fetch(endpoint: .search(query))
+    }
+
+    func fetchAllNews() async throws -> [NewsItemDTO] {
+        try await fetch(endpoint: .all)
+    }
+
+    private func fetch(endpoint: EndPoints) async throws -> [NewsItemDTO] {
+        guard let url = endpoint.url else {
             throw NewsServiceError.invalidUrl
         }
 
@@ -39,7 +48,7 @@ final class NewsServiceImpl: NewsService {
             throw NewsServiceError.unknown(error)
         }
     }
-    
+
     private func validateHTTPResponse(_ statusCode: Int) throws {
         switch statusCode {
         case 200...299:
@@ -52,13 +61,11 @@ final class NewsServiceImpl: NewsService {
             throw NewsServiceError.serverError(statusCode)
         }
     }
-    
+
     private func map(_ error: URLError) -> any Error {
         switch error.code {
-        case .timedOut:
-            return NewsServiceError.timeout
-        case .cancelled:
-            return CancellationError()
+        case .timedOut:             return NewsServiceError.timeout
+        case .cancelled:            return CancellationError()
         case .notConnectedToInternet,
              .networkConnectionLost,
              .dataNotAllowed,
@@ -66,10 +73,8 @@ final class NewsServiceImpl: NewsService {
              .cannotFindHost,
              .dnsLookupFailed,
              .internationalRoamingOff,
-             .callIsActive:
-            return NewsServiceError.networkFailure
-        default:
-            return NewsServiceError.unknown(error)
+             .callIsActive:         return NewsServiceError.networkFailure
+        default:                    return NewsServiceError.unknown(error)
         }
     }
 }
