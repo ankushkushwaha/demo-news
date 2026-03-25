@@ -28,11 +28,12 @@ struct DetailView: View {
     }
 }
 
-struct NewsView: View {
+struct LocalNewsView: View {
     
-    @StateObject var viewModel: NewsViewModel
+    @StateObject var viewModel: LocalNewsViewModel
     @State var openSafari = false
-    init(viewModel: NewsViewModel) {
+    
+    init(viewModel: LocalNewsViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -53,7 +54,13 @@ struct NewsView: View {
                     EmptyView()
                 }
                 
-                NewsItemListView(viewModel: viewModel)
+                NewsItemListView(
+                    items: viewModel.items,
+                    isBookmarked: { item in
+                        viewModel.isBookmarked(item)
+                    }, toggleBookmarkAction: { item in
+                        viewModel.toggleBookmark(item)
+                    })
                 
             case .loading:
                 LoadingView()
@@ -69,18 +76,21 @@ struct NewsView: View {
 }
 
 struct NewsItemListView: View {
-    @ObservedObject var viewModel: NewsViewModel
-
+    let items: [NewsItem]
+    let isBookmarked: (NewsItem) -> Bool
+    let toggleBookmarkAction: (NewsItem) -> Void
+    
     @State private var selectedURL: String?
     var body: some View {
-        List(viewModel.items, id: \.id) { item in
+        List(items, id: \.id) { item in
             
             NewsItemView(
                 item: item,
-                isBookmarked: viewModel.isBookmarked(item),
+                isBookmarked: isBookmarked(item),
                 onBookmarkTap: {
-                    viewModel.toggleBookmark(item)
-                })
+                toggleBookmarkAction(item)
+            })
+            
             .listRowInsets(
                 EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
             )

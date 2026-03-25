@@ -1,17 +1,15 @@
-
-import Foundation
 import Combine
 
 @MainActor
-final class NewsViewModel: ObservableObject {
+final class WorldwideNewsViewModel: ObservableObject {
 
     enum ViewState: Equatable {
-        case idle(String?)
+        case idle
         case loading
         case error(String)
     }
 
-    @Published private(set) var currentState: ViewState = .idle(nil)
+    @Published private(set) var currentState: ViewState = .idle
     @Published private(set) var items: [NewsItem] = []
     @Published private var bookmarks: Set<NewsItem> = []
 
@@ -21,47 +19,24 @@ final class NewsViewModel: ObservableObject {
     
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
-    private let fetchNewsUseCase: FetchNewsUseCase
-    private let observeLocationUseCase: ObserveLocationUseCase
+    private let fetchNewsUseCase: FetchAllNewsUseCase
     private let scheduler: TaskScheduler
 
     init(
         toggleBookmarkUseCase: ToggleBookmarkUseCase,
         observeBookmarksUseCase: ObserveBookmarksUseCase,
-        fetchNewsUseCase: FetchNewsUseCase,
-        observeLocationUseCase: ObserveLocationUseCase,
+        fetchNewsUseCase: FetchAllNewsUseCase,
         scheduler: TaskScheduler
     ) {
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
         self.observeBookmarksUseCase = observeBookmarksUseCase
         self.fetchNewsUseCase = fetchNewsUseCase
-        self.observeLocationUseCase = observeLocationUseCase
         self.scheduler = scheduler
         
         bind()
-        
-        attemptToGetLocation()
     }
     
-    func attemptToGetLocation() {
-        Task {
-            await observeLocationUseCase.attemptToGetLocation()
-        }
-    }
-
     private func bind() {
-        observeLocationUseCase.locationUpdatePublisher
-            .sink { [weak self] result in
-                guard let self else { return }
-                switch result {
-                case .success(let location):
-                    self.fetchData(location: location)
-                case .failure(let error):
-                    self.currentState = .error(error.message ?? "Unknown error")
-                }
-            }
-            .store(in: &cancellables)
-        
         observeBookmarksUseCase.publisher
             .assign(to: &$bookmarks)
     }
@@ -77,27 +52,28 @@ final class NewsViewModel: ObservableObject {
         }
     }
     
-    private func fetchData(location: UserLocation) {
+    func fetchData() {
         task?.cancel()
 
         task = scheduler.schedule { @MainActor [weak self] in
             guard let self else { return }
 
-            currentState = .loading
+            self.currentState = .loading
 
             do {
-                let items = try await fetchNewsUseCase.execute(topic: nil, location: location)
+                let items = try await fetchNewsUseCase.execute()
 
                 guard !Task.isCancelled else { return }
                 self.items = items
-                currentState = .idle(location.locationName)
+                self.currentState = .idle
+                print("WorldWideNewsViewModel fetched")
             } catch is CancellationError {
                 // Handle cancelled task here if needed
                 print("task cancelled")
             } catch let error as NewsRepositoryError {
-                currentState = .error(error.message)
+                self.currentState = .error(error.message)
             } catch {
-                currentState = .error("Unexpected error occurred")
+                self.currentState = .error("Unexpected error occurred")
             }
         }
     }

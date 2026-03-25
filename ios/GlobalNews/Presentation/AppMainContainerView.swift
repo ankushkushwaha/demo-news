@@ -26,8 +26,8 @@ struct AppTabView: View {
     var body: some View {
         VStack {
             TabView {
-                NewsView(
-                    viewModel: container.makeNewsViewModel()
+                HomeView(
+                    viewModel: HomeViewModel(),
                 )
                 .tabItem {
                     Label("Home", systemImage: "house")

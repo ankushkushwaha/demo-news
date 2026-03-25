@@ -27,8 +27,8 @@ final class AppContainer: ObservableObject {
         BookmarkRepositoryImpl(store: states.bookmarkStore)
     }
 
-    func makeNewsViewModel() -> NewsViewModel {
-        NewsViewModel(
+    func makeLocalNewsViewModel() -> LocalNewsViewModel {
+        LocalNewsViewModel(
             toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(
                 repository: makeBookmarkRepository()
             ),
@@ -39,6 +39,18 @@ final class AppContainer: ObservableObject {
             observeLocationUseCase: ObserveLocationUseCaseImpl(
                 locationRepository: makeLocationRepository()
             ),
+            scheduler: DefaultTaskScheduler()
+        )
+    }
+    func makeWorldwideNewsViewModel() -> WorldwideNewsViewModel {
+        WorldwideNewsViewModel(
+            toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(
+                repository: makeBookmarkRepository()
+            ),
+            observeBookmarksUseCase: ObserveBookmarksUseCaseImpl(
+                repository: makeBookmarkRepository()
+            ),
+            fetchNewsUseCase: FetchAllNewsUseCaseImpl(),
             scheduler: DefaultTaskScheduler()
         )
     }
@@ -69,5 +81,4 @@ final class AppContainer: ObservableObject {
             
         )
     }
-
 }

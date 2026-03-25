@@ -10,7 +10,7 @@ struct NewsViewModelTests {
     private let locationUseCase: MockObserveLocationUseCase!
     private let toggleBookmarkUseCase: MockToggleBookmarkUseCase!
     private let observeBookmarksUsecase: MockObserveBookmarksUseCase!
-    private let sut: NewsViewModel!
+    private let sut: LocalNewsViewModel!
     
     init() async {
         scheduler = TestTaskScheduler()
@@ -19,7 +19,7 @@ struct NewsViewModelTests {
         toggleBookmarkUseCase = MockToggleBookmarkUseCase()
         observeBookmarksUsecase = MockObserveBookmarksUseCase()
         
-        sut = await NewsViewModel(
+        sut = await LocalNewsViewModel(
             toggleBookmarkUseCase: toggleBookmarkUseCase,
             observeBookmarksUseCase: observeBookmarksUsecase,
             fetchNewsUseCase: fetchUseCase,
