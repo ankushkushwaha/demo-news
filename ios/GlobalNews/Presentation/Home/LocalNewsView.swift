@@ -30,11 +30,11 @@ struct DetailView: View {
 
 struct LocalNewsView: View {
     
-    @StateObject var viewModel: LocalNewsViewModel
+    @ObservedObject var viewModel: LocalNewsViewModel
     @State var openSafari = false
     
     init(viewModel: LocalNewsViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -68,6 +68,7 @@ struct LocalNewsView: View {
                 ErrorView(message: message, retry: {
                     viewModel.attemptToGetLocation()
                 })
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .background(Color(.systemGroupedBackground)

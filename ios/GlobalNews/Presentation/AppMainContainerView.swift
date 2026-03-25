@@ -28,6 +28,8 @@ struct AppTabView: View {
             TabView {
                 HomeView(
                     viewModel: HomeViewModel(),
+                    localViewModel: container.makeLocalNewsViewModel(),
+                    worldwideViewModel: container.makeWorldwideNewsViewModel()
                 )
                 .tabItem {
                     Label("Home", systemImage: "house")

@@ -34,6 +34,8 @@ final class WorldwideNewsViewModel: ObservableObject {
         self.scheduler = scheduler
         
         bind()
+        
+        fetchData()
     }
     
     private func bind() {

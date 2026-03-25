@@ -2,12 +2,12 @@
 import SwiftUI
 
 struct WorldwideNewsView: View {
-    @StateObject var viewModel: WorldwideNewsViewModel
-    
+    @ObservedObject var viewModel: WorldwideNewsViewModel
+
     @State var openSafari = false
     
     init(viewModel: WorldwideNewsViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -26,12 +26,10 @@ struct WorldwideNewsView: View {
                 LoadingView()
             case .error(let message):
                 ErrorView(message: message, retry: nil)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .background(Color(.systemGroupedBackground)
             .ignoresSafeArea())
-        .onLoad {
-            viewModel.fetchData()
-        }
     }
 }
