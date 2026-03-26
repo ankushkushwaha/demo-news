@@ -1,4 +1,3 @@
-
 import Testing
 import Foundation
 @testable import News
@@ -14,12 +13,10 @@ struct NewsRepositoryImplTests {
         sut = NewsRepositoryImpl(service: service)
     }
 
-    // MARK: Success
-
     @Test("fetchNews returns mapped NewsItems on success")
     func fetchNews_success() async throws {
         let dtos = [NewsItemDTO.stub(title: "One"), NewsItemDTO.stub(title: "Two")]
-        service.result = .success(dtos)
+        service.fetchNewsResult = .success(dtos)
 
         let items = try await sut.fetchNews(query: .stub())
 
@@ -30,7 +27,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews returns empty array when service returns no items")
     func fetchNews_emptyResult() async throws {
-        service.result = .success([])
+        service.fetchNewsResult = .success([])
 
         let items = try await sut.fetchNews(query: .stub())
 
@@ -41,7 +38,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews maps invalidUrl to invalidRequest")
     func fetchNews_invalidUrl() async {
-        service.result = .failure(NewsServiceError.invalidUrl)
+        service.fetchNewsResult = .failure(NewsServiceError.invalidUrl)
 
         await #expect(throws: NewsRepositoryError.invalidRequest) {
             try await sut.fetchNews(query: .stub())
@@ -50,7 +47,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews maps clientError to invalidRequest")
     func fetchNews_clientError() async {
-        service.result = .failure(NewsServiceError.clientError(400))
+        service.fetchNewsResult = .failure(NewsServiceError.clientError(400))
 
         await #expect(throws: NewsRepositoryError.invalidRequest) {
             try await sut.fetchNews(query: .stub())
@@ -59,7 +56,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews maps invalidResponse to networkFailure")
     func fetchNews_invalidResponse() async {
-        service.result = .failure(NewsServiceError.invalidResponse)
+        service.fetchNewsResult = .failure(NewsServiceError.invalidResponse)
 
         await #expect(throws: NewsRepositoryError.networkFailure) {
             try await sut.fetchNews(query: .stub())
@@ -68,7 +65,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews maps networkFailure to networkFailure")
     func fetchNews_networkFailure() async {
-        service.result = .failure(NewsServiceError.networkFailure)
+        service.fetchNewsResult = .failure(NewsServiceError.networkFailure)
 
         await #expect(throws: NewsRepositoryError.networkFailure) {
             try await sut.fetchNews(query: .stub())
@@ -77,7 +74,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews maps timeout to timeout")
     func fetchNews_timeout() async {
-        service.result = .failure(NewsServiceError.timeout)
+        service.fetchNewsResult = .failure(NewsServiceError.timeout)
 
         await #expect(throws: NewsRepositoryError.timeout) {
             try await sut.fetchNews(query: .stub())
@@ -86,7 +83,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews maps notFound to notFound")
     func fetchNews_notFound() async {
-        service.result = .failure(NewsServiceError.notFound)
+        service.fetchNewsResult = .failure(NewsServiceError.notFound)
 
         await #expect(throws: NewsRepositoryError.notFound) {
             try await sut.fetchNews(query: .stub())
@@ -95,7 +92,7 @@ struct NewsRepositoryImplTests {
 
     @Test("fetchNews maps serverError to serverError preserving code")
     func fetchNews_serverError() async throws {
-        service.result = .failure(NewsServiceError.serverError(503))
+        service.fetchNewsResult = .failure(NewsServiceError.serverError(503))
 
         do {
             _ = try await sut.fetchNews(query: .stub())
@@ -112,7 +109,7 @@ struct NewsRepositoryImplTests {
     @Test("fetchNews maps unknown service error to unknown repository error")
     func fetchNews_unknownServiceError() async throws {
         let underlying = NSError(domain: "test", code: -1)
-        service.result = .failure(NewsServiceError.unknown(underlying))
+        service.fetchNewsResult = .failure(NewsServiceError.unknown(underlying))
 
         do {
             _ = try await sut.fetchNews(query: .stub())
@@ -129,7 +126,7 @@ struct NewsRepositoryImplTests {
     @Test("fetchNews maps unknown non-service error to unknown repository error")
     func fetchNews_unknownNonServiceError() async throws {
         let underlying = NSError(domain: "unexpected", code: 99)
-        service.result = .failure(underlying)
+        service.fetchNewsResult = .failure(underlying)
 
         do {
             _ = try await sut.fetchNews(query: .stub())
@@ -143,27 +140,26 @@ struct NewsRepositoryImplTests {
         }
     }
 
-    // MARK: Cancellation
-
     @Test("fetchNews rethrows CancellationError without wrapping")
     func fetchNews_cancellation() async {
-        service.result = .failure(CancellationError())
+        service.fetchNewsResult = .failure(CancellationError())
 
         await #expect(throws: CancellationError.self) {
             try await sut.fetchNews(query: .stub())
         }
     }
 
-    // MARK: Query passthrough
-
     @Test("fetchNews passes query to service unchanged")
     func fetchNews_passesQueryToService() async throws {
         final class QueryCapturingService: NewsService {
             var capturedQuery: NewsQuery?
-            func fetchNews(query: NewsQuery) async throws -> [NewsItemDTO] {
+
+            func fetchNews(for query: NewsQuery) async throws -> [NewsItemDTO] {
                 capturedQuery = query
                 return []
             }
+
+            func fetchAllNews() async throws -> [NewsItemDTO] { [] }
         }
 
         let capturingService = QueryCapturingService()
@@ -177,9 +173,48 @@ struct NewsRepositoryImplTests {
         #expect(capturingService.capturedQuery?.gl == "FI")
         #expect(capturingService.capturedQuery?.ceid == "FI:fi")
     }
+
+    @Test("fetchAllNews returns mapped NewsItems on success")
+    func fetchAllNews_success() async throws {
+        let dtos = [NewsItemDTO.stub(title: "All One"), NewsItemDTO.stub(title: "All Two")]
+        service.fetchAllNewsResult = .success(dtos)
+
+        let items = try await sut.fetchAllNews()
+
+        #expect(items.count == 2)
+        #expect(items[0].title == "All One")
+        #expect(items[1].title == "All Two")
+    }
+
+    @Test("fetchAllNews returns empty array when service returns no items")
+    func fetchAllNews_emptyResult() async throws {
+        service.fetchAllNewsResult = .success([])
+
+        let items = try await sut.fetchAllNews()
+
+        #expect(items.isEmpty)
+    }
+
+    @Test("fetchAllNews maps networkFailure to networkFailure")
+    func fetchAllNews_networkFailure() async {
+        service.fetchAllNewsResult = .failure(NewsServiceError.networkFailure)
+
+        await #expect(throws: NewsRepositoryError.networkFailure) {
+            try await sut.fetchAllNews()
+        }
+    }
+
+    @Test("fetchAllNews rethrows CancellationError without wrapping")
+    func fetchAllNews_cancellation() async {
+        service.fetchAllNewsResult = .failure(CancellationError())
+
+        await #expect(throws: CancellationError.self) {
+            try await sut.fetchAllNews()
+        }
+    }
 }
 
-// MARK: - Mock
+// MARK: - Mocks
 
 extension NewsRepositoryError: @retroactive Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
@@ -196,14 +231,17 @@ extension NewsRepositoryError: @retroactive Equatable {
 }
 
 final class MockNewsService: NewsService {
-    var result: Result<[NewsItemDTO], Error> = .success([])
+    var fetchNewsResult: Result<[NewsItemDTO], Error> = .success([])
+    var fetchAllNewsResult: Result<[NewsItemDTO], Error> = .success([])
 
-    func fetchNews(query: NewsQuery) async throws -> [NewsItemDTO] {
-        try result.get()
+    func fetchNews(for query: NewsQuery) async throws -> [NewsItemDTO] {
+        try fetchNewsResult.get()
+    }
+
+    func fetchAllNews() async throws -> [NewsItemDTO] {
+        try fetchAllNewsResult.get()
     }
 }
-
-// MARK: - Stubs
 
 extension NewsItemDTO {
     static func stub(
@@ -232,4 +270,3 @@ extension NewsQuery {
         NewsQuery(q: q, hl: hl, gl: gl)
     }
 }
-

@@ -3,7 +3,7 @@ import Combine
 import Foundation
 @testable import News
 
-struct NewsViewModelTests {
+struct LocalNewsViewModelTests {
     
     private let scheduler: TestTaskScheduler!
     private let fetchUseCase: MockFetchNewsUseCase!
