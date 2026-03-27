@@ -358,8 +358,6 @@ struct NewsServiceImplTests {
     }
 }
 
-// MARK: - NewsServiceError Equatable
-
 extension NewsServiceError: @retroactive Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
@@ -395,8 +393,6 @@ final class MockRSSParser: RSSParser {
         return stubbedItems
     }
 }
-
-// MARK: - Helpers
 
 func makeHTTPResponse(statusCode: Int) -> HTTPURLResponse {
     HTTPURLResponse(

@@ -68,7 +68,6 @@ final class WorldwideNewsViewModel: ObservableObject {
                 guard !Task.isCancelled else { return }
                 self.items = items
                 self.currentState = .idle
-                print("WorldWideNewsViewModel fetched")
             } catch is CancellationError {
                 // Handle cancelled task here if needed
                 print("task cancelled")
