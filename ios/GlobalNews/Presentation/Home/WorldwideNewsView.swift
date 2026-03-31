@@ -25,8 +25,10 @@ struct WorldwideNewsView: View {
             case .loading:
                 LoadingView()
             case .error(let message):
-                ErrorView(message: message, retry: nil)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ErrorView(message: message, retry: {
+                    viewModel.fetchData()
+                })
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .background(Color(.systemGroupedBackground)
