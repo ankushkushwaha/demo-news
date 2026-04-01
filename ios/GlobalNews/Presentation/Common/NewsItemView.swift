@@ -12,6 +12,7 @@ struct NewsItemView: View {
                     .font(.custom("Georgia", size: 16).weight(.semibold))
                     .lineLimit(4)
                     .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("news_item_title_\(item.id)")
 
                 Spacer()
 
@@ -20,6 +21,8 @@ struct NewsItemView: View {
                         .foregroundColor(.orange)
                 }
                 .buttonStyle(.plain)
+                .accessibilityIdentifier("bookmark_\(item.id)")
+                .accessibilityLabel(isBookmarked ? "Remove bookmark" : "Add bookmark")
             }
 
             if !item.description.isEmpty {
@@ -42,6 +45,7 @@ struct NewsItemView: View {
             .foregroundColor(.orange)
         }
         .padding(16)
+        .accessibilityIdentifier("news_item_\(item.id)")
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(.systemBackground))

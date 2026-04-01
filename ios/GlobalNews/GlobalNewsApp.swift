@@ -3,8 +3,8 @@ import SwiftUI
 
 @main
 struct GlobalNewsApp: App {
-    @StateObject var container = AppContainer()
-    @StateObject var router = Router()
+    @StateObject private var container = AppContainerFactory.makeContainer()
+    @StateObject private var router = Router()
 
     var body: some Scene {
         WindowGroup {

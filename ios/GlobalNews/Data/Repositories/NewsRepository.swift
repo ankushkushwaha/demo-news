@@ -10,7 +10,7 @@ protocol NewsRepository {
 final class NewsRepositoryImpl: NewsRepository {
     private let service: NewsService
 
-    init(service: NewsService = NewsServiceImpl()) {
+    init(service: NewsService) {
         self.service = service
     }
 

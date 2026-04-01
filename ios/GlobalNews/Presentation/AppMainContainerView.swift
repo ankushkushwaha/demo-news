@@ -34,7 +34,7 @@ struct AppTabView: View {
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-                
+
                 SearchView(
                     viewModel: container.makeSearchViewModel()
                 )
@@ -48,6 +48,7 @@ struct AppTabView: View {
                 .tabItem {
                     Label("Bookmark", systemImage: "bookmark")
                 }
+                .accessibilityIdentifier("tab_bookmarks")
             }
         }
     }

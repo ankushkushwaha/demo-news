@@ -27,6 +27,7 @@ struct HomeView: View {
             }
             .pickerStyle(.segmented)
             .padding()
+            .accessibilityIdentifier("home_segment_picker")
 
             switch viewModel.selectedSegment {
             case .localNews:

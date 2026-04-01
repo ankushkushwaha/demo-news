@@ -9,7 +9,7 @@ final class FetchNewsUseCaseImpl: FetchNewsUseCase {
     private let newsRepository: NewsRepository
 
     init(
-        newsRepository: NewsRepository = NewsRepositoryImpl(),
+        newsRepository: NewsRepository
     ) {
         self.newsRepository = newsRepository
     }

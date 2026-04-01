@@ -102,6 +102,7 @@ struct NewsItemListView: View {
             }
         }
         .listStyle(.plain)
+        .accessibilityIdentifier("news_list")
         .sheet(item: $selectedURL) { urlString in
             if let url = URL(string: urlString) {
                 SafariView(url: url)

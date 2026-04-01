@@ -2,11 +2,11 @@ import SwiftUI
 
 struct SearchView: View {
     @StateObject var viewModel: SearchViewModel
-
+    
     init(viewModel: SearchViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-
+    
     var body: some View {
         VStack(spacing: 0) {
             searchBar
@@ -16,19 +16,23 @@ struct SearchView: View {
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
     }
-
+    
     private var searchBar: some View {
         HStack(spacing: 10) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(.secondary)
+            
             TextField("Search news...", text: $viewModel.searchQuery)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
+                .accessibilityIdentifier("search_text_field")
+            
             if !viewModel.searchQuery.isEmpty {
                 Button { viewModel.searchQuery = "" } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.secondary)
                 }
+                .accessibilityIdentifier("search_clear_button")
             }
         }
         .padding(10)
@@ -36,7 +40,7 @@ struct SearchView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()
     }
-
+    
     @ViewBuilder
     private var content: some View {
         switch viewModel.currentState {
@@ -44,13 +48,14 @@ struct SearchView: View {
             resultsList
         case .loading:
             LoadingView()
+                .accessibilityIdentifier("loading_view")
         case .empty:
             emptyPrompt(message: "No result found")
         case .error(let message):
             emptyPrompt(message: "Error\n\(message)")
         }
     }
-
+    
     private var resultsList: some View {
         List(viewModel.items) { item in
             NewsItemView(
@@ -63,13 +68,15 @@ struct SearchView: View {
             .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
+        .accessibilityIdentifier("search_results_list")
     }
-
+    
     private func emptyPrompt(message: String) -> some View {
         ContentUnavailableView(
             "",
             systemImage: "magnifyingglass",
             description: Text(message)
         )
+        .accessibilityIdentifier("search_empty_prompt")
     }
 }

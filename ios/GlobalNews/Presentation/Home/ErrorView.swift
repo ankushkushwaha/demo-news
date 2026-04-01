@@ -9,10 +9,12 @@ struct ErrorView: View {
                 .foregroundColor(.red)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
-            
+                .accessibilityIdentifier("error_message_label")
+
             Button("Retry") {
                 retry?()
             }
+            .accessibilityIdentifier("error_retry_button")
         }
     }
 }
