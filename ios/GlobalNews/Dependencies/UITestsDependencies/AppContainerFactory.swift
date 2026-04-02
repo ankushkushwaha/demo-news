@@ -1,14 +1,15 @@
 import Foundation
 
+#if DEBUG
 enum AppContainerFactory {
-
+    
     static func makeContainer() -> AppContainer {
         let mode = AppRunningMode.current(from: ProcessInfo.processInfo.arguments)
-
+        
         switch mode {
         case .normal:
             return AppContainer()
-
+            
         case .uiTestSuccess:
             return AppContainer(
                 states: .makeForUITests(),
@@ -17,7 +18,7 @@ enum AppContainerFactory {
                     newsService: MockNewsService()
                 )
             )
-
+            
         case .uiTestError:
             return AppContainer(
                 states: .makeForUITests(),
@@ -26,7 +27,7 @@ enum AppContainerFactory {
                     newsService: MockFailingNewsService()
                 )
             )
-
+            
         case .uiTestEmpty:
             return AppContainer(
                 states: .makeForUITests(),
@@ -38,3 +39,14 @@ enum AppContainerFactory {
         }
     }
 }
+
+#else
+// For RELEASE / PROD
+enum AppContainerFactory {
+    
+    static func makeContainer() -> AppContainer {
+        AppContainer()
+    }
+}
+
+#endif

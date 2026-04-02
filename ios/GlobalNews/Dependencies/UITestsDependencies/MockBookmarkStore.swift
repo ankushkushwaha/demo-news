@@ -1,10 +1,4 @@
-//
-//  MockBookmarkStore.swift
-//  News
-//
-//  Created by Ankush on 20.3.2026.
-//
-
+#if DEBUG
 
 import Combine
 
@@ -14,7 +8,6 @@ extension AppStates {
     }
 }
 
-// MockBookmarkStore.swift
 final class MockBookmarkStore: BookmarkStore {
 
     private let subject = CurrentValueSubject<Set<NewsItem>, Never>([])
@@ -33,3 +26,5 @@ final class MockBookmarkStore: BookmarkStore {
         subject.send(current)
     }
 }
+
+#endif

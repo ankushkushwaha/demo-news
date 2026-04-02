@@ -1,9 +1,4 @@
-//
-//  AppRunningMode.swift
-//  News
-//
-//  Created by Ankush on 20.3.2026.
-//
+#if DEBUG
 
 enum AppRunningMode {
     case normal
@@ -22,3 +17,5 @@ enum AppRunningMode {
         return .normal
     }
 }
+
+#endif

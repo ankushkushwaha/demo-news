@@ -1,3 +1,4 @@
+#if DEBUG
 
 import Combine
 
@@ -30,3 +31,5 @@ final class MockLocationService: LocationService {
 
     func stopMonitoring() { }
 }
+
+#endif

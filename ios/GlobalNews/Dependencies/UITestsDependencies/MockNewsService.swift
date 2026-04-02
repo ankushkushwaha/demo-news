@@ -1,9 +1,4 @@
-//
-//  MockNewsService.swift
-//  News
-//
-//  Created by Ankush on 20.3.2026.
-//
+#if DEBUG
 
 final class MockNewsService: NewsService {
 
@@ -50,3 +45,17 @@ final class MockFailingNewsService: NewsService {
         throw NewsServiceError.networkFailure
     }
 }
+
+
+final class MockEmptyNewsService: NewsService {
+
+    func fetchNews(for query: NewsQuery) async throws -> [NewsItemDTO] {
+        []
+    }
+
+    func fetchAllNews() async throws -> [NewsItemDTO] {
+        []
+    }
+}
+
+#endif
