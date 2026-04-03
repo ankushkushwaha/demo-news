@@ -44,7 +44,7 @@ struct NewsItemView: View {
             }
             .foregroundColor(.orange)
         }
-        .padding(16)
+        .padding()
         .accessibilityIdentifier("news_item_\(item.id)")
         .background(
             RoundedRectangle(cornerRadius: 12)

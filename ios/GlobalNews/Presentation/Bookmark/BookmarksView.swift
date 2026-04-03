@@ -11,7 +11,7 @@ struct BookmarksView: View {
 
             listView
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
     
     private var listView: some View {
