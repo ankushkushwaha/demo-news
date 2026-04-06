@@ -4,11 +4,11 @@ import Combine
 final class HomeViewModel: ObservableObject {
 
     enum Segment: String, CaseIterable {
-        case localNews = "Local News"
         case worldwide = "Worldwide"
+        case localNews = "Local News"
     }
 
-    @Published private(set) var selectedSegment: Segment = .localNews
+    @Published private(set) var selectedSegment: Segment = .worldwide
 
     func selectSegment(_ segment: Segment) {
         selectedSegment = segment
