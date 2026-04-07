@@ -33,7 +33,11 @@ final class SearchUITests: XCTestCase {
     }
 
     private func goToSearchTab() {
-        app.tabBars.buttons["Search"].tap()
+        app.buttons.matching(NSPredicate(format: "label == 'Search'")).firstMatch.tap()
+    }
+
+    private func goToBookmarksTab() {
+        app.buttons.matching(NSPredicate(format: "label == 'Bookmark'")).firstMatch.tap()
     }
 
     private func typeQuery(_ query: String) {
@@ -208,7 +212,7 @@ final class SearchUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts[firstTitle].waitForExistence(timeout: 3))
         app.buttons["Add bookmark"].firstMatch.tap()
 
-        app.tabBars.buttons["Bookmark"].tap()
+        goToBookmarksTab()
 
         XCTAssertTrue(
             app.staticTexts[firstTitle].waitForExistence(timeout: 3)

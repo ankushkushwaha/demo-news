@@ -25,7 +25,11 @@ final class BookmarksUITests: XCTestCase {
     }
 
     private func goToBookmarksTab() {
-        app.tabBars.buttons["Bookmark"].tap()
+        app.buttons.matching(NSPredicate(format: "label == 'Bookmark'")).firstMatch.tap()
+    }
+
+    private func goToHomeTab() {
+        app.buttons.matching(NSPredicate(format: "label == 'Home'")).firstMatch.tap()
     }
 
     private func waitForFeedToLoad() {
@@ -103,7 +107,8 @@ final class BookmarksUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts[firstTitle].waitForExistence(timeout: 3))
 
         // Go back to feed and unbookmark
-        app.tabBars.buttons["Home"].tap()
+        goToHomeTab()
+        
         waitForFeedToLoad()
         unbookmarkFirstBookmarkedItem()
 
