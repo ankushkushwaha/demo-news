@@ -31,7 +31,7 @@ final class LocationServiceImpl: NSObject, LocationService, CLLocationManagerDel
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
 
-#if targetEnvironment(simulator)
+#if targetEnvironment(simulator) // for testing purpose
         startMonitoring()
 #endif
     }
