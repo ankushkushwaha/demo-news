@@ -46,7 +46,7 @@ struct AppTabView: View {
                     viewModel: container.makeBookmarkViewModel()
                 )
                 .tabItem {
-                    Label("Bookmark", systemImage: "bookmark")
+                    Label("Bookmarks", systemImage: "bookmark")
                 }
                 .accessibilityIdentifier("tab_bookmarks")
             }
