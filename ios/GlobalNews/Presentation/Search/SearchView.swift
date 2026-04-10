@@ -48,7 +48,6 @@ struct SearchView: View {
             resultsList
         case .loading:
             LoadingView()
-                .accessibilityIdentifier("loading_view")
         case .empty:
             emptyPrompt(message: "No result found")
         case .error(let message):
@@ -68,7 +67,6 @@ struct SearchView: View {
             .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
-        .accessibilityIdentifier("search_results_list")
     }
     
     private func emptyPrompt(message: String) -> some View {

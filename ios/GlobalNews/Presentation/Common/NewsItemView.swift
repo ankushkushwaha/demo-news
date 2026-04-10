@@ -12,7 +12,6 @@ struct NewsItemView: View {
                     .font(.custom("Georgia", size: 16).weight(.semibold))
                     .lineLimit(4)
                     .fixedSize(horizontal: false, vertical: true)
-                    .accessibilityIdentifier("news_item_title_\(item.id)")
 
                 Spacer()
 
@@ -45,7 +44,6 @@ struct NewsItemView: View {
             .foregroundColor(.orange)
         }
         .padding()
-        .accessibilityIdentifier("news_item_\(item.id)")
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(.systemBackground))

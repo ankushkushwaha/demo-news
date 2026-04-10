@@ -48,7 +48,6 @@ struct AppTabView: View {
                 .tabItem {
                     Label("Bookmarks", systemImage: "bookmark")
                 }
-                .accessibilityIdentifier("tab_bookmarks")
             }
         }
     }

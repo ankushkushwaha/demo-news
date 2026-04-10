@@ -7,7 +7,6 @@ struct BookmarksView: View {
     var body: some View {
         VStack {
             Text("Bookmarks: \(viewModel.bookmarks.count)")
-                .accessibilityIdentifier("bookmarks_count_label")
 
             listView
         }
@@ -27,7 +26,6 @@ struct BookmarksView: View {
             
         }
         .listStyle(.plain)
-        .accessibilityIdentifier("bookmarks_list")
         .animation(.easeInOut(duration: 0.3), value: viewModel.bookmarks)  // animates on bookmark change
     }
 }
