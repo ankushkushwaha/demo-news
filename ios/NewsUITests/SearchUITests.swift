@@ -37,7 +37,7 @@ final class SearchUITests: XCTestCase {
     }
 
     private func goToBookmarksTab() {
-        app.buttons.matching(NSPredicate(format: "label == 'Bookmark'")).firstMatch.tap()
+        app.buttons.matching(NSPredicate(format: "label == 'Bookmarks'")).firstMatch.tap()
     }
 
     private func typeQuery(_ query: String) {

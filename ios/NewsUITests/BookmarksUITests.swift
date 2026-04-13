@@ -25,7 +25,7 @@ final class BookmarksUITests: XCTestCase {
     }
 
     private func goToBookmarksTab() {
-        app.buttons.matching(NSPredicate(format: "label == 'Bookmark'")).firstMatch.tap()
+        app.buttons.matching(NSPredicate(format: "label == 'Bookmarks'")).firstMatch.tap()
     }
 
     private func goToHomeTab() {
