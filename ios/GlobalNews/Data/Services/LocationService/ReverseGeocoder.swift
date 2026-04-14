@@ -5,7 +5,7 @@ protocol ReverseGeocoder {
     func geocode(_ location: CLLocation) async throws -> LocationDTO
 }
 
-final class MKReverseGeocoder: ReverseGeocoder {
+final class ReverseGeocoderImpl: ReverseGeocoder {
 
     func geocode(_ location: CLLocation) async throws -> LocationDTO {
         guard let request = MKReverseGeocodingRequest(location: location) else {

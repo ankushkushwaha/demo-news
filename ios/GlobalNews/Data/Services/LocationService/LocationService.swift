@@ -23,7 +23,7 @@ final class LocationServiceImpl: NSObject, LocationService, CLLocationManagerDel
 
     init(
         locationManager: LocationManager = CLLocationManager(),
-        geocoder: ReverseGeocoder = MKReverseGeocoder()
+        geocoder: ReverseGeocoder = ReverseGeocoderImpl()
     ) {
         self.locationManager = locationManager
         self.geocoder = geocoder
