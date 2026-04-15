@@ -26,7 +26,7 @@
 /* Begin PBXFileReference section */
 		AC3084472F48C9D000B974A5 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC3084542F48C9D200B974A5 /* NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC75BE972F6DE946002163DC /* News.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = News.xctestplan; sourceTree = "<group>"; };
+		AC75BE972F6DE946002163DC /* News.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = News.xctestplan; sourceTree = "<group>"; };
 		AC75BEAB2F6DE9EC002163DC /* NewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
