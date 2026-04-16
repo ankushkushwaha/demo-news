@@ -46,8 +46,6 @@ final class NewsFeedUITests: XCTestCase {
         }
     }
 
- 
-
     func test_newsFeed_noErrorShown_onSuccess() {
         launch()
 

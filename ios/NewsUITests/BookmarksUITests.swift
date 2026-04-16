@@ -41,7 +41,6 @@ final class BookmarksUITests: XCTestCase {
 
     private func bookmarkFirstFeedItem() {
         waitForFeedToLoad()
-        // Target by accessibilityLabel set on the button
         app.buttons["Add bookmark"].firstMatch.tap()
     }
 
@@ -77,12 +76,7 @@ final class BookmarksUITests: XCTestCase {
         bookmarkFirstFeedItem()
         goToBookmarksTab()
 
-        // Bookmarked title appears in bookmarks
         XCTAssertTrue(app.staticTexts[firstTitle].waitForExistence(timeout: 3))
-
-        // Second and third were never bookmarked
-        // Can't reliably assert absence due to feed view staying alive behind tab
-        // Covered separately by test_bookmarks_noItemsShown_initially
     }
 
     func test_bookmarks_titleDisappears_afterUnbookmarking() {
@@ -99,20 +93,16 @@ final class BookmarksUITests: XCTestCase {
     func test_bookmarks_itemRemovedFromList_afterUnbookmarkingFromFeed() {
         launch()
 
-        // Bookmark from feed
         bookmarkFirstFeedItem()
 
-        // Confirm title appears in bookmarks
         goToBookmarksTab()
         XCTAssertTrue(app.staticTexts[firstTitle].waitForExistence(timeout: 3))
 
-        // Go back to feed and unbookmark
         goToHomeTab()
         
         waitForFeedToLoad()
         unbookmarkFirstBookmarkedItem()
 
-        // Confirm title gone from bookmarks
         goToBookmarksTab()
         XCTAssertFalse(app.staticTexts[firstTitle].waitForExistence(timeout: 3))
     }
