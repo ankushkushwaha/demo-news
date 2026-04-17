@@ -15,7 +15,9 @@ enum AppContainerFactory {
                 states: .makeForUITests(),
                 services: AppServices(
                     locationService: MockLocationService(),
-                    newsService: MockNewsService()
+                    newsService: NewsServiceImpl(
+                        networkSession: MockNetworkSession.success()
+                    )
                 )
             )
             
@@ -24,7 +26,9 @@ enum AppContainerFactory {
                 states: .makeForUITests(),
                 services: AppServices(
                     locationService: MockLocationService(),
-                    newsService: MockFailingNewsService()
+                    newsService: NewsServiceImpl(
+                        networkSession: MockNetworkSession.error()
+                    )
                 )
             )
             
@@ -33,7 +37,9 @@ enum AppContainerFactory {
                 states: .makeForUITests(),
                 services: AppServices(
                     locationService: MockLocationService(),
-                    newsService: MockEmptyNewsService()
+                    newsService: NewsServiceImpl(
+                        networkSession: MockNetworkSession.empty()
+                    )
                 )
             )
         }
