@@ -9,7 +9,7 @@ import Foundation
 import Combine
 @testable import News
 
-final class MockFetchNewsUseCase: FetchNewsUseCase {
+final class MockFetchNewsUseCase: FetchTopicNewsUseCase {
     var newsItems: [NewsItem]?
     var error: Error?
     private(set) var callCount = 0

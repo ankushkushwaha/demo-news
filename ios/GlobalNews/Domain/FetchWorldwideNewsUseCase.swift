@@ -1,9 +1,9 @@
 
-protocol FetchAllNewsUseCase {
+protocol FetchWorldwideNewsUseCase {
     func execute() async throws -> [NewsItem]
 }
 
-final class FetchAllNewsUseCaseImpl: FetchAllNewsUseCase {
+final class FetchWorldwideNewsUseCaseImpl: FetchWorldwideNewsUseCase {
 
     private let newsRepository: NewsRepository
 
@@ -12,6 +12,7 @@ final class FetchAllNewsUseCaseImpl: FetchAllNewsUseCase {
     }
 
     func execute() async throws -> [NewsItem] {
-        return try await newsRepository.fetchAllNews()
+        let items =  try await newsRepository.fetchAllNews()
+        return items.sorted { $0.pubDate > $1.pubDate }
     }
 }

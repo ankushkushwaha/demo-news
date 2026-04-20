@@ -43,8 +43,6 @@ extension MockNetworkSession {
     }
 }
 
-// MARK: - Stubbed Data
-
 extension NewsItemDTO {
     static var stubbedXMLData: Data {
         """

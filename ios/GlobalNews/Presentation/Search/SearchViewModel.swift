@@ -19,13 +19,13 @@ final class SearchViewModel: ObservableObject {
     private var searchTask: Task<Void, Never>?
     private var cancellables: Set<AnyCancellable> = []
     
-    private let fetchNewsUseCase: FetchNewsUseCase
+    private let fetchNewsUseCase: FetchTopicNewsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
     private let observeLocationUseCase: ObserveLocationUseCase
     
     init(
-        fetchNewsUseCase: FetchNewsUseCase,
+        fetchNewsUseCase: FetchTopicNewsUseCase,
         toggleBookmarkUseCase: ToggleBookmarkUseCase,
         observeBookmarksUseCase: ObserveBookmarksUseCase,
         observeLocationUseCase: ObserveLocationUseCase

@@ -35,7 +35,7 @@ final class AppContainer: ObservableObject {
             observeBookmarksUseCase: ObserveBookmarksUseCaseImpl(
                 repository: makeBookmarkRepository()
             ),
-            fetchNewsUseCase: FetchNewsUseCaseImpl(
+            fetchNewsUseCase: FetchTopicNewsUseCaseImpl(
                 newsRepository: makeNewsRepository()
             ),
             observeLocationUseCase: ObserveLocationUseCaseImpl(
@@ -52,7 +52,7 @@ final class AppContainer: ObservableObject {
             observeBookmarksUseCase: ObserveBookmarksUseCaseImpl(
                 repository: makeBookmarkRepository()
             ),
-            fetchNewsUseCase: FetchAllNewsUseCaseImpl(
+            fetchNewsUseCase: FetchWorldwideNewsUseCaseImpl(
                 newsRepository: makeNewsRepository()
             ),
             scheduler: DefaultTaskScheduler()
@@ -72,7 +72,7 @@ final class AppContainer: ObservableObject {
     
     func makeSearchViewModel() -> SearchViewModel {
         SearchViewModel(
-            fetchNewsUseCase: FetchNewsUseCaseImpl(
+            fetchNewsUseCase: FetchTopicNewsUseCaseImpl(
                 newsRepository: makeNewsRepository()
             ),
             toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(

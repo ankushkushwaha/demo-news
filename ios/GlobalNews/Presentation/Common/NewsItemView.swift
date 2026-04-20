@@ -37,7 +37,7 @@ struct NewsItemView: View {
                 Text(item.source)
                     .font(.system(size: 12, weight: .medium))
                 Spacer()
-                Text(item.pubDate)
+                Text(item.pubDateString)
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
             }

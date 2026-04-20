@@ -176,7 +176,7 @@ struct WorldwideNewsViewModelTests {
 
 // MARK: - Mocks
 
-final class MockFetchAllNewsUseCase: FetchAllNewsUseCase {
+final class MockFetchAllNewsUseCase: FetchWorldwideNewsUseCase {
     var result: Result<[NewsItem], Error> = .success([])
 
     func execute() async throws -> [NewsItem] {

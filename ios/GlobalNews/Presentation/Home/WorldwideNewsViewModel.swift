@@ -19,13 +19,13 @@ final class WorldwideNewsViewModel: ObservableObject {
     
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
-    private let fetchNewsUseCase: FetchAllNewsUseCase
+    private let fetchNewsUseCase: FetchWorldwideNewsUseCase
     private let scheduler: TaskScheduler
 
     init(
         toggleBookmarkUseCase: ToggleBookmarkUseCase,
         observeBookmarksUseCase: ObserveBookmarksUseCase,
-        fetchNewsUseCase: FetchAllNewsUseCase,
+        fetchNewsUseCase: FetchWorldwideNewsUseCase,
         scheduler: TaskScheduler
     ) {
         self.toggleBookmarkUseCase = toggleBookmarkUseCase

@@ -21,14 +21,14 @@ final class LocalNewsViewModel: ObservableObject {
     
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
-    private let fetchNewsUseCase: FetchNewsUseCase
+    private let fetchNewsUseCase: FetchTopicNewsUseCase
     private let observeLocationUseCase: ObserveLocationUseCase
     private let scheduler: TaskScheduler
 
     init(
         toggleBookmarkUseCase: ToggleBookmarkUseCase,
         observeBookmarksUseCase: ObserveBookmarksUseCase,
-        fetchNewsUseCase: FetchNewsUseCase,
+        fetchNewsUseCase: FetchTopicNewsUseCase,
         observeLocationUseCase: ObserveLocationUseCase,
         scheduler: TaskScheduler
     ) {
