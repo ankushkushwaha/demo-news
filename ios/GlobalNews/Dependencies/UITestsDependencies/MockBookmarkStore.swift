@@ -10,21 +10,20 @@ extension AppStates {
 
 final class MockBookmarkStore: BookmarkStore {
 
-    private let subject = CurrentValueSubject<Set<NewsItem>, Never>([])
+    private let subject = CurrentValueSubject<[NewsItem], Never>([])
 
-    var publisher: AnyPublisher<Set<NewsItem>, Never> {
+    var publisher: AnyPublisher<[NewsItem], Never> {
         subject.eraseToAnyPublisher()
     }
 
     func toggle(_ item: NewsItem) async {
         var current = subject.value
-        if current.contains(item) {
-            current.remove(item)
+        if let index = current.firstIndex(of: item) {
+            current.remove(at: index)
         } else {
-            current.insert(item)
+            current.insert(item, at: 0)
         }
         subject.send(current)
     }
 }
-
 #endif

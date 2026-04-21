@@ -13,7 +13,7 @@ final class LocalNewsViewModel: ObservableObject {
 
     @Published private(set) var currentState: ViewState = .idle(nil)
     @Published private(set) var items: [NewsItem] = []
-    @Published private var bookmarks: Set<NewsItem> = []
+    @Published private var bookmarks: [NewsItem] = []
 
     private var task: Task<Void, Never>?
     

@@ -13,7 +13,7 @@ final class SearchViewModel: ObservableObject {
     
     @Published var searchQuery: String = ""
     @Published private(set) var items: [NewsItem] = []
-    @Published private(set) var bookmarks: Set<NewsItem> = []
+    @Published private(set) var bookmarks: [NewsItem] = []
     @Published private(set) var currentState: ViewState = .idle
     
     private var searchTask: Task<Void, Never>?

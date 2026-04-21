@@ -1,9 +1,8 @@
 import Combine
 import Foundation
 
-
 protocol BookmarkStore {
-    var publisher: AnyPublisher<Set<NewsItem>, Never> { get }
+    var publisher: AnyPublisher<[NewsItem], Never> { get }
     func toggle(_ item: NewsItem) async
 }
 
@@ -11,8 +10,9 @@ final class PersistentBookmarkStore: BookmarkStore {
 
     private let key: String
     private let defaults: UserDefaults
-    private let subject: CurrentValueSubject<Set<NewsItem>, Never>
-    var publisher: AnyPublisher<Set<NewsItem>, Never> {
+    private let subject: CurrentValueSubject<[NewsItem], Never>
+
+    var publisher: AnyPublisher<[NewsItem], Never> {
         subject.eraseToAnyPublisher()
     }
 
@@ -22,15 +22,15 @@ final class PersistentBookmarkStore: BookmarkStore {
         self.subject = CurrentValueSubject(Self.load(key: key, defaults: defaults))
     }
 
-    private static func load(key: String, defaults: UserDefaults) -> Set<NewsItem> {
+    private static func load(key: String, defaults: UserDefaults) -> [NewsItem] {
         guard
             let data = defaults.data(forKey: key),
-            let items = try? JSONDecoder().decode(Set<NewsItem>.self, from: data)
+            let items = try? JSONDecoder().decode([NewsItem].self, from: data)
         else { return [] }
         return items
     }
-    
-    private func save(_ items: Set<NewsItem>) async {
+
+    private func save(_ items: [NewsItem]) async {
         guard let data = try? JSONEncoder().encode(items) else { return }
         defaults.set(data, forKey: key)
         subject.send(items)
@@ -38,12 +38,11 @@ final class PersistentBookmarkStore: BookmarkStore {
 
     func toggle(_ item: NewsItem) async {
         var current = subject.value
-        if current.contains(item) {
-            current.remove(item)
+        if let index = current.firstIndex(of: item) {
+            current.remove(at: index)
         } else {
-            current.insert(item)
+            current.insert(item, at: 0)
         }
         await save(current)
     }
 }
-
