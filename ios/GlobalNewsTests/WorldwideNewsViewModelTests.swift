@@ -183,21 +183,3 @@ final class MockFetchAllNewsUseCase: FetchWorldwideNewsUseCase {
         try result.get()
     }
 }
-
-extension NewsItem {
-    static func stub(
-        title: String = "Title",
-        source: String = "Source",
-        pubDate: String = "1.1.2026",
-        link: String = "https://example.com",
-        description: String = "Description"
-    ) -> NewsItem {
-        NewsItem(
-            title: title,
-            source: source,
-            pubDate: pubDate,
-            link: link,
-            description: description
-        )
-    }
-}

@@ -252,6 +252,7 @@ extension NewsItemDTO {
         description: String = "Description"
     ) -> NewsItemDTO {
         NewsItemDTO(
+            guid: UUID().uuidString,
             title: title,
             source: source,
             pubDate: pubDate,

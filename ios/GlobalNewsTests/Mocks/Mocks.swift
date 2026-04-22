@@ -37,14 +37,14 @@ final class MockToggleBookmarkUseCase: ToggleBookmarkUseCase, @unchecked Sendabl
 }
 
 final class MockObserveBookmarksUseCase: ObserveBookmarksUseCase {
-    private let subject = CurrentValueSubject<Set<NewsItem>, Never>([])
+    private let subject = CurrentValueSubject<[NewsItem], Never>([])
 
-    var publisher: AnyPublisher<Set<NewsItem>, Never> {
+    var publisher: AnyPublisher<[NewsItem], Never> {
         subject.eraseToAnyPublisher()
     }
 
-    func emit(_ value: Set<NewsItem>) {
-        subject.send(value)
+    func emit(_ items: [NewsItem]) {
+        subject.send(items)
     }
 }
 
@@ -88,9 +88,42 @@ private func makeLocation(
     )
 }
 
+
+extension NewsItem {
+    static func stub(
+        id: String = "https://example.com",
+        title: String = "Title",
+        source: String = "Source",
+        pubDate: Date = Date(),
+        pubDateString: String = "1 hour ago",
+        link: String = "https://example.com",
+        description: String = "Description"
+    ) -> NewsItem {
+        NewsItem(
+            id: id,
+            title: title,
+            source: source,
+            pubDate: pubDate,
+            pubDateString: pubDateString,
+            link: link,
+            description: description
+        )
+    }
+}
+
 func makeNewsItem(
     title: String = "Title",
-    link: String = "https://example.com"
+    link: String = "https://example.com",
+    pubDate: Date = Date(),
+    pubDateString: String = "1 hour ago"
 ) -> NewsItem {
-    NewsItem(title: title, source: "", pubDate: "1.1.2026", link: link, description: "")
+    NewsItem(
+        id: UUID().uuidString,
+        title: title,
+        source: "",
+        pubDate: pubDate,
+        pubDateString: pubDateString,
+        link: link,
+        description: ""
+    )
 }

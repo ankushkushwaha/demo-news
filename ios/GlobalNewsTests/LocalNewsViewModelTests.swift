@@ -45,7 +45,8 @@ struct LocalNewsViewModelTests {
     @Test
     func locationUpdateSuccess_newsFetchSuccess() async {
 
-        let newsItem = await NewsItem(title: "title", source: "", pubDate: "1.1.2026", link: "", description: "")
+        let newsItem = makeNewsItem()
+        
         fetchUseCase.newsItems = [newsItem]
         
         let location = UserLocation(countryCode: "DE", countryName: "Germany", city: "Berlin", languageCode: "de")
