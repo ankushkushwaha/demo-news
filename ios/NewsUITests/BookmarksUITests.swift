@@ -106,4 +106,31 @@ final class BookmarksUITests: XCTestCase {
         goToBookmarksTab()
         XCTAssertFalse(app.staticTexts[firstTitle].waitForExistence(timeout: 3))
     }
+    
+    func test_bookmarks_lastBookmarked_appearsOnTop() {
+        launch()
+        waitForFeedToLoad()
+
+        // Bookmark first item
+        app.buttons["bookmark_https://example.com/1"].tap()
+        sleep(1)
+
+        // Bookmark second item
+        app.buttons["bookmark_https://example.com/2"].tap()
+        sleep(1)
+
+        goToBookmarksTab()
+
+        XCTAssertTrue(app.staticTexts[secondTitle].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.staticTexts[firstTitle].exists)
+
+        let secondTitleFrame = app.staticTexts[secondTitle].frame
+        let firstTitleFrame = app.staticTexts[firstTitle].frame
+
+        XCTAssertLessThan(
+            secondTitleFrame.minY,
+            firstTitleFrame.minY,
+            "Last bookmarked item should appear at the top"
+        )
+    }
 }

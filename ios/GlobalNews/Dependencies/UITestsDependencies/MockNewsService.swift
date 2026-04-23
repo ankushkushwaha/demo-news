@@ -50,23 +50,26 @@ extension NewsItemDTO {
         <rss version="2.0">
             <channel>
                 <item>
-                    <title>Swift 6 Concurrency Deep Dive</title>
-                    <source>Swift Weekly</source>
-                    <pubDate>20 Mar 2026</pubDate>
+                    <guid isPermaLink="false">https://example.com/1</guid>
+                    <title>Swift 6 Concurrency Deep Dive - Swift Weekly</title>
+                    <source url="https://swiftweekly.com">Swift Weekly</source>
+                    <pubDate>Thu, 20 Mar 2026 10:00:00 GMT</pubDate>
                     <link>https://example.com/1</link>
                     <description>Everything you need to know about Swift 6.</description>
                 </item>
                 <item>
-                    <title>Apple Vision Pro 2 Announced</title>
-                    <source>Tech Crunch</source>
-                    <pubDate>19 Mar 2026</pubDate>
+                    <guid isPermaLink="false">https://example.com/2</guid>
+                    <title>Apple Vision Pro 2 Announced - Tech Crunch</title>
+                    <source url="https://techcrunch.com">Tech Crunch</source>
+                    <pubDate>Wed, 19 Mar 2026 08:30:00 GMT</pubDate>
                     <link>https://example.com/2</link>
                     <description>Apple unveils the next generation of spatial computing.</description>
                 </item>
                 <item>
-                    <title>SwiftUI Performance Tips</title>
-                    <source>Hacking with Swift</source>
-                    <pubDate>18 Mar 2026</pubDate>
+                    <guid isPermaLink="false">https://example.com/3</guid>
+                    <title>SwiftUI Performance Tips - Hacking with Swift</title>
+                    <source url="https://hackingwithswift.com">Hacking with Swift</source>
+                    <pubDate>Tue, 18 Mar 2026 06:00:00 GMT</pubDate>
                     <link>https://example.com/3</link>
                     <description>Practical techniques to speed up your SwiftUI apps.</description>
                 </item>
