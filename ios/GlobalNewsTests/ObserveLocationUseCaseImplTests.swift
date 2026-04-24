@@ -36,7 +36,7 @@ struct ObserveLocationUseCaseImplTests {
     func publisher_forwardsFailure() async {
         var received: Result<UserLocation, LocationRepositoryError>?
 
-        let cancellable = sut.locationUpdatePublisher.sink { received = $0 }
+        let cancellable = await sut.locationUpdatePublisher.sink { received = $0 }
 
         repository.subject.send(.failure(.permissionDenied))
 
