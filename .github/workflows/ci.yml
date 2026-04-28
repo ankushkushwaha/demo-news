@@ -10,33 +10,40 @@ jobs:
 
     strategy:
       matrix:
-        simulator: [ "iPhone 15", "iPad Pro (12.9-inch) (6th generation)" ]
+        simulator: [ "iPhone 17", "iPad Pro 13-inch (M5)" ]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Xcode
-        uses: maxim-lobanov/setup-xcode@v2
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.0'
-
-      - name: Install dependencies
-        run: |
-          brew install cocoapods || true
-          cd ios/PROJECT && pod install --repo-update
+          xcode-version: '26.3.0'
 
       - name: Build
         run: |
-          cd ios/PROJECT
-          xcodebuild -workspace News.xcworkspace -scheme News -sdk iphonesimulator -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" clean build | xcpretty
+          cd ios
+          set -o pipefail
+          xcodebuild -project News.xcodeproj -scheme News \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" \
+            clean build | xcpretty
 
       - name: Run Unit Tests
         run: |
-          cd ios/PROJECT
-          xcodebuild test -workspace News.xcworkspace -scheme News -sdk iphonesimulator -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" -only-testing:NewsTests | xcpretty
+          cd ios
+          set -o pipefail
+          xcodebuild test -project News.xcodeproj -scheme News \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" \
+            -only-testing:NewsTests | xcpretty
 
       - name: Run UI Tests
         run: |
-          cd ios/PROJECT
-          xcodebuild test -workspace News.xcworkspace -scheme NewsUITests -sdk iphonesimulator -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" | xcpretty
+          cd ios
+          set -o pipefail
+          xcodebuild test -project News.xcodeproj -scheme News \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" \
+            -only-testing:NewsUITests | xcpretty
