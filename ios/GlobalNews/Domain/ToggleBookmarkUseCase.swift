@@ -6,7 +6,7 @@
 //
 
 protocol ToggleBookmarkUseCase: Sendable {
-    func execute(item: NewsItem) async
+    func execute(item: NewsItem) async throws
 }
 
 final class ToggleBookmarkUseCaseImpl: ToggleBookmarkUseCase {
@@ -16,7 +16,7 @@ final class ToggleBookmarkUseCaseImpl: ToggleBookmarkUseCase {
         self.repository = repository
     }
 
-    func execute(item: NewsItem) async {
-        await repository.toggle(item)
+    func execute(item: NewsItem) async throws {
+        try await repository.toggle(item)
     }
 }

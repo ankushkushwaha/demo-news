@@ -3,7 +3,7 @@ import Foundation
 
 protocol BookmarkStore {
     var publisher: AnyPublisher<[NewsItem], Never> { get }
-    func toggle(_ item: NewsItem) async
+    func toggle(_ item: NewsItem) async throws
 }
 
 final class PersistentBookmarkStore: BookmarkStore {
@@ -19,30 +19,50 @@ final class PersistentBookmarkStore: BookmarkStore {
     init(key: String = "bookmarks", defaults: UserDefaults = .standard) {
         self.key = key
         self.defaults = defaults
-        self.subject = CurrentValueSubject(Self.load(key: key, defaults: defaults))
+        self.subject = CurrentValueSubject(
+            (try? Self.load(key: key, defaults: defaults)) ?? []
+        )
     }
 
-    private static func load(key: String, defaults: UserDefaults) -> [NewsItem] {
-        guard
-            let data = defaults.data(forKey: key),
-            let items = try? JSONDecoder().decode([NewsItem].self, from: data)
-        else { return [] }
-        return items
-    }
-
-    private func save(_ items: [NewsItem]) async {
-        guard let data = try? JSONEncoder().encode(items) else { return }
-        defaults.set(data, forKey: key)
-        subject.send(items)
-    }
-
-    func toggle(_ item: NewsItem) async {
-        var current = subject.value
-        if let index = current.firstIndex(of: item) {
-            current.remove(at: index)
-        } else {
-            current.insert(item, at: 0)
+    func toggle(_ item: NewsItem) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+                var current = self.subject.value
+                let isRemoving = current.contains(item)
+                
+                if isRemoving {
+                    current.remove(at: current.firstIndex(of: item)!)
+                } else {
+                    current.insert(item, at: 0)
+                }
+                
+                do {
+                    let data = try JSONEncoder().encode(current)
+                    self.defaults.set(data, forKey: self.key)
+                    self.subject.send(current)
+                    continuation.resume()
+                } catch {
+                    if isRemoving {
+                        continuation.resume(throwing: BookmarkStoreError.removeBookmarkFailed)
+                    } else {
+                        continuation.resume(throwing: BookmarkStoreError.addBookmarkFailed)
+                    }
+                }
         }
-        await save(current)
     }
+
+    private static func load(key: String, defaults: UserDefaults) throws -> [NewsItem] {
+        guard let data = defaults.data(forKey: key) else { return [] }
+
+        do {
+            return try JSONDecoder().decode([NewsItem].self, from: data)
+        } catch {
+            throw BookmarkStoreError.decodingFailed
+        }
+    }
+}
+
+enum BookmarkStoreError: Error {
+    case addBookmarkFailed
+    case removeBookmarkFailed
+    case decodingFailed
 }

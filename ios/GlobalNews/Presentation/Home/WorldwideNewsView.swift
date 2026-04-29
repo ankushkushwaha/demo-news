@@ -20,7 +20,7 @@ struct WorldwideNewsView: View {
                         viewModel.isBookmarked(item)
                     }, toggleBookmarkAction: { item in
                         viewModel.toggleBookmark(item)
-                    })
+                    }, bookmarkErrorMessage: viewModel.bookmarkError)
 
             case .loading:
                 LoadingView()

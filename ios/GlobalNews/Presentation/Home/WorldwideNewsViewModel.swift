@@ -11,7 +11,9 @@ final class WorldwideNewsViewModel: ObservableObject {
 
     @Published private(set) var currentState: ViewState = .idle
     @Published private(set) var items: [NewsItem] = []
+
     @Published private var bookmarks: [NewsItem] = []
+    @Published var bookmarkError: String?
 
     private var task: Task<Void, Never>?
     
@@ -48,12 +50,18 @@ final class WorldwideNewsViewModel: ObservableObject {
     }
     
     func toggleBookmark(_ item: NewsItem) {
-        scheduler.schedule { [weak self] in
+        scheduler.schedule { @MainActor [weak self] in
             guard let self else { return }
-            await toggleBookmarkUseCase.execute(item: item)
+            do {
+                try await toggleBookmarkUseCase.execute(item: item)
+            } catch let error as BookmarkRepositoryError {
+                self.bookmarkError = error.errorDescription
+            } catch {
+                self.bookmarkError = "Unexpected error occurred."
+            }
         }
     }
-    
+
     func fetchData() {
         task?.cancel()
 

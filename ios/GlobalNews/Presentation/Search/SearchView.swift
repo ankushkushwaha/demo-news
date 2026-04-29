@@ -1,7 +1,9 @@
 import SwiftUI
+import Combine
 
 struct SearchView: View {
     @StateObject var viewModel: SearchViewModel
+    @State var showBookmarkError: Bool = false
     
     init(viewModel: SearchViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -15,6 +17,15 @@ struct SearchView: View {
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
+        .onReceive(viewModel.$bookmarkError.compactMap { $0 }) { _ in
+            showBookmarkError = true
+        }
+        .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
+            Button("OK", role: .cancel) {}
+        }, message: {
+            Text(viewModel.bookmarkError ?? "")
+        })
+
     }
     
     private var searchBar: some View {

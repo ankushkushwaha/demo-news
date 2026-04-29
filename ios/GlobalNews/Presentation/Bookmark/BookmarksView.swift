@@ -1,7 +1,9 @@
 import SwiftUI
+import Combine
 
 struct BookmarksView: View {
     @StateObject var viewModel: BookMarkViewModel
+    @State private var showBookmarkError = false
 
     var body: some View {
         VStack {
@@ -20,6 +22,14 @@ struct BookmarksView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
+        .onReceive(viewModel.$errorMessage.compactMap { $0 }) { _ in
+            showBookmarkError = true
+        }
+        .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
+            Button("OK", role: .cancel) {}
+        }, message: {
+            Text(viewModel.errorMessage ?? "")
+        })
     }
 
     private var listView: some View {

@@ -58,9 +58,11 @@ struct LocalNewsView: View {
                     items: viewModel.items,
                     isBookmarked: { item in
                         viewModel.isBookmarked(item)
-                    }, toggleBookmarkAction: { item in
+                    },
+                    toggleBookmarkAction: { item in
                         viewModel.toggleBookmark(item)
-                    })
+                    },
+                    bookmarkErrorMessage: viewModel.bookmarkError)
                 
             case .loading:
                 LoadingView()
@@ -80,7 +82,10 @@ struct NewsItemListView: View {
     let items: [NewsItem]
     let isBookmarked: (NewsItem) -> Bool
     let toggleBookmarkAction: (NewsItem) -> Void
+    let bookmarkErrorMessage: String?
     
+    @State private var showBookmarkError = false
+
     @State private var selectedURL: String?
     var body: some View {
         List(items, id: \.id) { item in
@@ -108,6 +113,14 @@ struct NewsItemListView: View {
                     .ignoresSafeArea()
             }
         }
+        .onChange(of: bookmarkErrorMessage) { newValue in
+            showBookmarkError = newValue != nil
+        }
+        .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
+            Button("OK", role: .cancel) {}
+        }, message: {
+            Text(bookmarkErrorMessage ?? "")
+        })
     }
 }
 

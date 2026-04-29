@@ -4,6 +4,7 @@ import Combine
 @MainActor
 final class BookMarkViewModel: ObservableObject {
     @Published private(set) var bookmarks: [NewsItem] = []
+    @Published var errorMessage: String?
 
     private var cancellable: Set<AnyCancellable> = []
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
@@ -20,6 +21,7 @@ final class BookMarkViewModel: ObservableObject {
 
     private func bind() {
         observeBookmarksUseCase.publisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] items in
                 self?.bookmarks = items
             }
@@ -32,7 +34,13 @@ final class BookMarkViewModel: ObservableObject {
 
     func toggleBookmark(_ item: NewsItem) {
         Task {
-            await toggleBookmarkUseCase.execute(item: item)
+            do {
+                try await toggleBookmarkUseCase.execute(item: item)
+            } catch let error as BookmarkRepositoryError {
+                self.errorMessage = error.errorDescription
+            } catch {
+                self.errorMessage = "Unexpected error occurred."
+            }
         }
     }
 }

@@ -13,9 +13,11 @@ final class SearchViewModel: ObservableObject {
     
     @Published var searchQuery: String = ""
     @Published private(set) var items: [NewsItem] = []
-    @Published private(set) var bookmarks: [NewsItem] = []
     @Published private(set) var currentState: ViewState = .idle
     
+    @Published private(set) var bookmarks: [NewsItem] = []
+    @Published private(set) var bookmarkError: String?
+
     private var searchTask: Task<Void, Never>?
     private var cancellables: Set<AnyCancellable> = []
     
@@ -74,9 +76,18 @@ final class SearchViewModel: ObservableObject {
     }
     
     func toggleBookmark(_ item: NewsItem) {
-        Task { await toggleBookmarkUseCase.execute(item: item) }
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await toggleBookmarkUseCase.execute(item: item)
+            } catch let error as BookmarkRepositoryError {
+                self.bookmarkError = error.errorDescription
+            } catch {
+                self.bookmarkError = "Unexpected error occurred."
+            }
+        }
     }
-    
+
     private func search(query: String, location: UserLocation?) {
         searchTask?.cancel()
         searchTask = Task { [weak self] in
