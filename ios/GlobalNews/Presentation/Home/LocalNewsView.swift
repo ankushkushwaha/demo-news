@@ -113,7 +113,7 @@ struct NewsItemListView: View {
                     .ignoresSafeArea()
             }
         }
-        .onChange(of: bookmarkErrorMessage) { newValue in
+        .onChange(of: bookmarkErrorMessage) { _, newValue in
             showBookmarkError = newValue != nil
         }
         .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
