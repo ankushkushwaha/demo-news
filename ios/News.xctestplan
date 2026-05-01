@@ -25,6 +25,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:News.xcodeproj",
         "identifier" : "AC75BEAA2F6DE9EC002163DC",
