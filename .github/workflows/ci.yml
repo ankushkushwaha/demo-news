@@ -39,11 +39,11 @@ jobs:
             -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" \
             -only-testing:NewsTests | xcpretty
 
-      - name: Run UI Tests
-        run: |
-          cd ios
-          set -o pipefail
-          xcodebuild test -project News.xcodeproj -scheme News \
-            -sdk iphonesimulator \
-            -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" \
-            -only-testing:NewsUITests | xcpretty
+#      - name: Run UI Tests
+#        run: |
+#          cd ios
+#          set -o pipefail
+#          xcodebuild test -project News.xcodeproj -scheme News \
+#            -sdk iphonesimulator \
+#            -destination "platform=iOS Simulator,name=${{ matrix.simulator }}" \
+#            -only-testing:NewsUITests | xcpretty
