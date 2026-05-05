@@ -67,17 +67,15 @@ struct SearchView: View {
     }
     
     private var resultsList: some View {
-        List(viewModel.items) { item in
-            NewsItemView(
-                item: item,
-                isBookmarked: viewModel.isBookmarked(item),
-                onBookmarkTap: { viewModel.toggleBookmark(item) }
-            )
-            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-        }
-        .listStyle(.plain)
+        NewsItemListView(
+            items: viewModel.items,
+            isBookmarked: { item in
+                viewModel.isBookmarked(item)
+            },
+            toggleBookmarkAction: { item in
+                viewModel.toggleBookmark(item)
+            },
+            bookmarkErrorMessage: viewModel.bookmarkError)
     }
     
     private func emptyPrompt(message: String) -> some View {

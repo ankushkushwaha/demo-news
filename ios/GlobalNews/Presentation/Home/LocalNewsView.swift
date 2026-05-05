@@ -12,22 +12,6 @@ struct SettingView: View {
     }
 }
 
-struct DetailView: View {
-    let urlString: String
-    
-    var body: some View {
-        if let url = URL(string: urlString) {
-            SafariView(url: url)
-                .ignoresSafeArea()
-        } else {
-            ContentUnavailableView(
-                "Invalid URL",
-                systemImage: "link.badge.xmark"
-            )
-        }
-    }
-}
-
 struct LocalNewsView: View {
     
     @ObservedObject var viewModel: LocalNewsViewModel
@@ -40,29 +24,13 @@ struct LocalNewsView: View {
     var body: some View {
         VStack {
             switch viewModel.currentState {
+                
             case .idle(let location):
                 if let location {
-                    HStack {
-                        Spacer()
-                        Image(systemName: "location")
-                            .font(.footnote)
-                        Text(location)
-                            .font(.footnote)
-                    }
-                    .padding(.horizontal)
-                } else {
-                    EmptyView()
+                    locationTextView(location)
                 }
                 
-                NewsItemListView(
-                    items: viewModel.items,
-                    isBookmarked: { item in
-                        viewModel.isBookmarked(item)
-                    },
-                    toggleBookmarkAction: { item in
-                        viewModel.toggleBookmark(item)
-                    },
-                    bookmarkErrorMessage: viewModel.bookmarkError)
+                newsListView()
                 
             case .loading:
                 LoadingView()
@@ -75,6 +43,29 @@ struct LocalNewsView: View {
         }
         .background(Color(.systemGroupedBackground)
             .ignoresSafeArea())
+    }
+    
+    private func newsListView() -> some View {
+        NewsItemListView(
+            items: viewModel.items,
+            isBookmarked: { item in
+                viewModel.isBookmarked(item)
+            },
+            toggleBookmarkAction: { item in
+                viewModel.toggleBookmark(item)
+            },
+            bookmarkErrorMessage: viewModel.bookmarkError)
+    }
+    
+    private func locationTextView(_ location: String) -> some View {
+        HStack {
+            Spacer()
+            Image(systemName: "location")
+                .font(.footnote)
+            Text(location)
+                .font(.footnote)
+        }
+        .padding(.horizontal)
     }
 }
 
@@ -107,6 +98,7 @@ struct NewsItemListView: View {
             }
         }
         .listStyle(.plain)
+        .animation(.easeInOut(duration: 0.3), value: items)
         .sheet(item: $selectedURL) { urlString in
             if let url = URL(string: urlString) {
                 SafariView(url: url)

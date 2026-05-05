@@ -22,29 +22,26 @@ struct BookmarksView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .onReceive(viewModel.$errorMessage.compactMap { $0 }) { _ in
+        .onReceive(viewModel.$bookmarkError.compactMap { $0 }) { _ in
             showBookmarkError = true
         }
         .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
             Button("OK", role: .cancel) {}
         }, message: {
-            Text(viewModel.errorMessage ?? "")
+            Text(viewModel.bookmarkError ?? "")
         })
     }
 
     private var listView: some View {
-        List(viewModel.bookmarks) { item in
-            NewsItemView(
-                item: item,
-                isBookmarked: viewModel.isBookmarked(item),
-                onBookmarkTap: { viewModel.toggleBookmark(item) }
-            )
-            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-        }
-        .listStyle(.plain)
-        .animation(.easeInOut(duration: 0.3), value: viewModel.bookmarks)
+        NewsItemListView(
+            items: viewModel.bookmarks,
+            isBookmarked: { item in
+                viewModel.isBookmarked(item)
+            },
+            toggleBookmarkAction: { item in
+                viewModel.toggleBookmark(item)
+            },
+            bookmarkErrorMessage: viewModel.bookmarkError)
     }
 
     private var emptyView: some View {

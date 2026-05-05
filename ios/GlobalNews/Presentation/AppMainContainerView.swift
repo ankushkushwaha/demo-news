@@ -10,7 +10,7 @@ struct AppMainContainerView: View {
                 .navigationDestination(for: Router.Route.self) { route in
                     switch route {
                     case .detail(let url):
-                        DetailView(urlString: url)
+                        NewsDetailView(urlString: url)
                     case .setting:
                         SettingView()
                     }

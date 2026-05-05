@@ -4,7 +4,7 @@ import Combine
 @MainActor
 final class BookMarkViewModel: ObservableObject {
     @Published private(set) var bookmarks: [NewsItem] = []
-    @Published var errorMessage: String?
+    @Published var bookmarkError: String?
 
     private var cancellable: Set<AnyCancellable> = []
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
@@ -37,9 +37,9 @@ final class BookMarkViewModel: ObservableObject {
             do {
                 try await toggleBookmarkUseCase.execute(item: item)
             } catch let error as BookmarkRepositoryError {
-                self.errorMessage = error.errorDescription
+                self.bookmarkError = error.errorDescription
             } catch {
-                self.errorMessage = "Unexpected error occurred."
+                self.bookmarkError = "Unexpected error occurred."
             }
         }
     }
