@@ -22,14 +22,7 @@ struct BookmarksView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .onReceive(viewModel.$bookmarkError.compactMap { $0 }) { _ in
-            showBookmarkError = true
-        }
-        .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
-            Button("OK", role: .cancel) {}
-        }, message: {
-            Text(viewModel.bookmarkError ?? "")
-        })
+        .presentAlert(viewModel: viewModel)
     }
 
     private var listView: some View {
@@ -40,8 +33,8 @@ struct BookmarksView: View {
             },
             toggleBookmarkAction: { item in
                 viewModel.toggleBookmark(item)
-            },
-            bookmarkErrorMessage: viewModel.bookmarkError)
+            }
+        )
     }
 
     private var emptyView: some View {

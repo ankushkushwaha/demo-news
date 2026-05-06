@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 @MainActor
-final class SearchViewModel: ObservableObject {
+final class SearchViewModel: ObservableObject, AlertPresentable {
     
     enum ViewState: Equatable {
         case idle
@@ -16,7 +16,7 @@ final class SearchViewModel: ObservableObject {
     @Published private(set) var currentState: ViewState = .idle
     
     @Published private(set) var bookmarks: [NewsItem] = []
-    @Published private(set) var bookmarkError: String?
+    @Published var alertMessage: String?
 
     private var searchTask: Task<Void, Never>?
     private var cancellables: Set<AnyCancellable> = []
@@ -81,9 +81,9 @@ final class SearchViewModel: ObservableObject {
             do {
                 try await toggleBookmarkUseCase.execute(item: item)
             } catch let error as BookmarkRepositoryError {
-                self.bookmarkError = error.errorDescription
+                self.alertMessage = error.errorDescription
             } catch {
-                self.bookmarkError = "Unexpected error occurred."
+                self.alertMessage = "Unexpected error occurred."
             }
         }
     }

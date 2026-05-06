@@ -17,15 +17,7 @@ struct SearchView: View {
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
-        .onReceive(viewModel.$bookmarkError.compactMap { $0 }) { _ in
-            showBookmarkError = true
-        }
-        .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
-            Button("OK", role: .cancel) {}
-        }, message: {
-            Text(viewModel.bookmarkError ?? "")
-        })
-
+        .presentAlert(viewModel: viewModel)
     }
     
     private var searchBar: some View {
@@ -74,8 +66,7 @@ struct SearchView: View {
             },
             toggleBookmarkAction: { item in
                 viewModel.toggleBookmark(item)
-            },
-            bookmarkErrorMessage: viewModel.bookmarkError)
+            })
     }
     
     private func emptyPrompt(message: String) -> some View {

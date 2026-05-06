@@ -3,7 +3,7 @@ import Foundation
 import Combine
 
 @MainActor
-final class LocalNewsViewModel: ObservableObject {
+final class LocalNewsViewModel: ObservableObject, AlertPresentable {
 
     enum ViewState: Equatable {
         case idle(String?)
@@ -15,7 +15,7 @@ final class LocalNewsViewModel: ObservableObject {
     @Published private(set) var items: [NewsItem] = []
 
     @Published private var bookmarks: [NewsItem] = []
-    @Published var bookmarkError: String?
+    @Published var alertMessage: String?
 
     private var task: Task<Void, Never>?
     
@@ -78,9 +78,9 @@ final class LocalNewsViewModel: ObservableObject {
             do {
                 try await toggleBookmarkUseCase.execute(item: item)
             } catch let error as BookmarkRepositoryError {
-                self.bookmarkError = error.errorDescription
+                self.alertMessage = error.errorDescription
             } catch {
-                self.bookmarkError = "Unexpected error occurred."
+                self.alertMessage = "Unexpected error occurred."
             }
         }
     }

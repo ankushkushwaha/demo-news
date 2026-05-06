@@ -43,6 +43,7 @@ struct LocalNewsView: View {
         }
         .background(Color(.systemGroupedBackground)
             .ignoresSafeArea())
+        .presentAlert(viewModel: viewModel)
     }
     
     private func newsListView() -> some View {
@@ -53,8 +54,8 @@ struct LocalNewsView: View {
             },
             toggleBookmarkAction: { item in
                 viewModel.toggleBookmark(item)
-            },
-            bookmarkErrorMessage: viewModel.bookmarkError)
+            }
+        )
     }
     
     private func locationTextView(_ location: String) -> some View {
@@ -73,7 +74,6 @@ struct NewsItemListView: View {
     let items: [NewsItem]
     let isBookmarked: (NewsItem) -> Bool
     let toggleBookmarkAction: (NewsItem) -> Void
-    let bookmarkErrorMessage: String?
     
     @State private var showBookmarkError = false
 
@@ -105,14 +105,6 @@ struct NewsItemListView: View {
                     .ignoresSafeArea()
             }
         }
-        .onChange(of: bookmarkErrorMessage) { _, newValue in
-            showBookmarkError = newValue != nil
-        }
-        .alert("Bookmark Failed", isPresented: $showBookmarkError, actions: {
-            Button("OK", role: .cancel) {}
-        }, message: {
-            Text(bookmarkErrorMessage ?? "")
-        })
     }
 }
 
