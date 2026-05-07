@@ -25,28 +25,25 @@ final class PersistentBookmarkStore: BookmarkStore {
     }
 
     func toggle(_ item: NewsItem) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-                var current = self.subject.value
-                let isRemoving = current.contains(item)
-                
-                if isRemoving {
-                    current.remove(at: current.firstIndex(of: item)!)
-                } else {
-                    current.insert(item, at: 0)
-                }
-                
-                do {
-                    let data = try JSONEncoder().encode(current)
-                    self.defaults.set(data, forKey: self.key)
-                    self.subject.send(current)
-                    continuation.resume()
-                } catch {
-                    if isRemoving {
-                        continuation.resume(throwing: BookmarkStoreError.removeBookmarkFailed)
-                    } else {
-                        continuation.resume(throwing: BookmarkStoreError.addBookmarkFailed)
-                    }
-                }
+        var current = subject.value
+        let isRemoving = current.contains(item)
+        
+        if isRemoving {
+            current.remove(at: current.firstIndex(of: item)!)
+        } else {
+            current.insert(item, at: 0)
+        }
+        
+        do {
+            let data = try JSONEncoder().encode(current)
+            defaults.set(data, forKey: key)
+            subject.send(current)
+        } catch {
+            if isRemoving {
+                throw BookmarkStoreError.removeBookmarkFailed
+            } else {
+                throw BookmarkStoreError.addBookmarkFailed
+            }
         }
     }
 
