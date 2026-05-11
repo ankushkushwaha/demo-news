@@ -29,13 +29,15 @@ struct SearchView: View {
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
                 .accessibilityIdentifier("search_text_field")
-            
+                .accessibilityLabel("Enter text to")
+
             if !viewModel.searchQuery.isEmpty {
                 Button { viewModel.searchQuery = "" } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.secondary)
                 }
                 .accessibilityIdentifier("search_clear_button")
+                .accessibilityLabel("Clear text")
             }
         }
         .padding(10)
