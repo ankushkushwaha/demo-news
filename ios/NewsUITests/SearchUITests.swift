@@ -119,7 +119,7 @@ final class SearchUITests: XCTestCase {
         typeQuery("Swift")
 
         XCTAssertTrue(
-            app.staticTexts["Swift Weekly"].waitForExistence(timeout: 3)
+            app.staticTexts[firstTitle].waitForExistence(timeout: 3)
         )
     }
 
