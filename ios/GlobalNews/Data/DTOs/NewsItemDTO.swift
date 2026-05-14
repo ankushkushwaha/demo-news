@@ -17,24 +17,13 @@ extension NewsItemDTO {
         return formatter
     }()
 
-    private static let relativeFormatter: RelativeDateTimeFormatter = {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .full
-        return formatter
-    }()
-
     func toNewsItem() -> NewsItem {
         let date = Self.dateFormatter.date(from: pubDate) ?? .distantPast
-        let displayString = date == .distantPast
-            ? pubDate
-            : Self.relativeFormatter.localizedString(for: date, relativeTo: Date())
-
         return NewsItem(
             id: guid,
             title: title,
             source: source,
             pubDate: date,
-            pubDateString: displayString,
             link: link,
             description: description
         )

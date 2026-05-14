@@ -48,10 +48,10 @@ struct NewsItemView: View {
 
                 Spacer()
 
-                Text(item.pubDateString)
+                Text(item.pubDate.relativeDisplayString)
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
-                    .accessibilityLabel("Published: \(item.pubDateString)")
+                    .accessibilityLabel("Published: \(item.pubDate.relativeDisplayString)")
             }
             .foregroundColor(.orange)
         }
