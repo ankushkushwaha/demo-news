@@ -17,8 +17,8 @@ final class LocalNewsViewModel: ObservableObject, AlertPresentable {
     @Published private var bookmarks: [NewsItem] = []
     @Published var alertMessage: String?
 
+    private var currentLocation: UserLocation?
     private var task: Task<Void, Never>?
-    
     private var cancellables: Set<AnyCancellable> = []
     
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
@@ -57,6 +57,7 @@ final class LocalNewsViewModel: ObservableObject, AlertPresentable {
                 guard let self else { return }
                 switch result {
                 case .success(let location):
+                    self.currentLocation = location
                     self.fetchData(location: location)
                 case .failure(let error):
                     self.currentState = .error(error.message ?? "Unknown error")
@@ -85,31 +86,42 @@ final class LocalNewsViewModel: ObservableObject, AlertPresentable {
         }
     }
     
-    private func fetchData(location: UserLocation) {
+    private func fetchData(location: UserLocation, isRefresh: Bool = false) {
         task?.cancel()
 
         task = scheduler.schedule { @MainActor [weak self] in
             guard let self else { return }
 
-            currentState = .loading
+            if !isRefresh {
+                self.currentState = .loading
+            }
 
             do {
                 let items = try await fetchNewsUseCase.execute(topic: nil, location: location)
 
                 guard !Task.isCancelled else { return }
                 self.items = items
-                currentState = .idle(location.locationName)
+                self.currentState = .idle(location.locationName)
+                print("FetchData")
             } catch is CancellationError {
                 // Handle cancelled task here if needed
                 print("task cancelled")
             } catch let error as NewsRepositoryError {
-                currentState = .error(error.message)
+                self.currentState = .error(error.message)
             } catch {
-                currentState = .error("Unexpected error occurred")
+                self.currentState = .error("Unexpected error occurred")
             }
         }
     }
-
+    
+    func refresh() async {
+        guard let currentLocation else {
+            self.alertMessage = "Could not detect current location"
+            return
+        }
+        fetchData(location: currentLocation, isRefresh: true)
+    }
+    
     deinit {
         task?.cancel()
     }

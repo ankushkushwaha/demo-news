@@ -54,6 +54,8 @@ struct LocalNewsView: View {
             },
             toggleBookmarkAction: { item in
                 viewModel.toggleBookmark(item)
+            }, refreshAction: {
+                await viewModel.refresh()
             }
         )
     }
@@ -74,7 +76,8 @@ struct NewsItemListView: View {
     let items: [NewsItem]
     let isBookmarked: (NewsItem) -> Bool
     let toggleBookmarkAction: (NewsItem) -> Void
-    
+    var refreshAction: (() async -> Void)?
+
     @State private var showBookmarkError = false
 
     @State private var selectedURL: String?
@@ -99,6 +102,9 @@ struct NewsItemListView: View {
         }
         .listStyle(.plain)
         .animation(.easeInOut(duration: 0.3), value: items)
+        .refreshable {
+            await refreshAction?()
+        }
         .sheet(item: $selectedURL) { urlString in
             if let url = URL(string: urlString) {
                 SafariView(url: url)

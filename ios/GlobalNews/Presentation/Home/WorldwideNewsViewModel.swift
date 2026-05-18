@@ -14,9 +14,8 @@ final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
 
     @Published private var bookmarks: [NewsItem] = []
     @Published var alertMessage: String?
-
-    private var task: Task<Void, Never>?
     
+    private var task: Task<Void, Never>?
     private var cancellables: Set<AnyCancellable> = []
     
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
@@ -62,13 +61,15 @@ final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
         }
     }
 
-    func fetchData() {
+    func fetchData(isRefresh: Bool = false) {
         task?.cancel()
 
         task = scheduler.schedule { @MainActor [weak self] in
             guard let self else { return }
 
-            self.currentState = .loading
+            if !isRefresh {
+                self.currentState = .loading
+            }
 
             do {
                 let items = try await fetchNewsUseCase.execute()
@@ -76,6 +77,8 @@ final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
                 guard !Task.isCancelled else { return }
                 self.items = items
                 self.currentState = .idle
+                
+                print("Fetched")
             } catch is CancellationError {
                 // Handle cancelled task here if needed
                 print("task cancelled")
@@ -86,7 +89,11 @@ final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
             }
         }
     }
-
+    
+    func refresh() {
+        fetchData(isRefresh: true)
+    }
+    
     deinit {
         task?.cancel()
     }

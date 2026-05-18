@@ -20,6 +20,8 @@ struct WorldwideNewsView: View {
                         viewModel.isBookmarked(item)
                     }, toggleBookmarkAction: { item in
                         viewModel.toggleBookmark(item)
+                    }, refreshAction: {
+                        viewModel.refresh()
                     }
                 )
 
