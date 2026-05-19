@@ -9,6 +9,6 @@ extension Date {
 
     var relativeDisplayString: String {
         guard self != .distantPast else { return "" }
-        return Self.relativeFormatter.localizedString(for: self, relativeTo: Date())
+        return Self.relativeFormatter.localizedString(for: self, relativeTo: Date(timeIntervalSinceNow: 1))
     }
 }

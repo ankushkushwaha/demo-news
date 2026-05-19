@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 @MainActor
 final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
@@ -11,7 +12,8 @@ final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
 
     @Published private(set) var currentState: ViewState = .idle
     @Published private(set) var items: [NewsItem] = []
-
+    @Published private(set) var lastUpdatedDate: Date?
+    
     @Published private var bookmarks: [NewsItem] = []
     @Published var alertMessage: String?
     
@@ -76,6 +78,7 @@ final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
 
                 guard !Task.isCancelled else { return }
                 self.items = items
+                self.lastUpdatedDate = Date()
                 self.currentState = .idle
                 
                 print("Fetched")

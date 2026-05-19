@@ -30,6 +30,15 @@ struct LocalNewsView: View {
                     locationTextView(location)
                 }
                 
+                if let lastUpdatedDate = viewModel.lastUpdatedDate {
+                    TimelineView(.periodic(from: .now, by: 60)) { _ in
+                        Text("Updated: \(lastUpdatedDate.relativeDisplayString)")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                    }
+                }
                 newsListView()
                 
             case .loading:

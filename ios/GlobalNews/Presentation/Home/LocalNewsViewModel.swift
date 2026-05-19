@@ -13,6 +13,7 @@ final class LocalNewsViewModel: ObservableObject, AlertPresentable {
 
     @Published private(set) var currentState: ViewState = .idle(nil)
     @Published private(set) var items: [NewsItem] = []
+    @Published private(set) var lastUpdatedDate: Date?
 
     @Published private var bookmarks: [NewsItem] = []
     @Published var alertMessage: String?
@@ -101,6 +102,7 @@ final class LocalNewsViewModel: ObservableObject, AlertPresentable {
 
                 guard !Task.isCancelled else { return }
                 self.items = items
+                self.lastUpdatedDate = Date()
                 self.currentState = .idle(location.locationName)
                 print("FetchData")
             } catch is CancellationError {
