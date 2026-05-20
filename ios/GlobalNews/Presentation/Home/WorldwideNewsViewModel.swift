@@ -81,7 +81,6 @@ final class WorldwideNewsViewModel: ObservableObject, AlertPresentable {
                 self.lastUpdatedDate = Date()
                 self.currentState = .idle
                 
-                print("Fetched")
             } catch is CancellationError {
                 // Handle cancelled task here if needed
                 print("task cancelled")

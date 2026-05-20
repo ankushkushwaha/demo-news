@@ -104,7 +104,6 @@ final class LocalNewsViewModel: ObservableObject, AlertPresentable {
                 self.items = items
                 self.lastUpdatedDate = Date()
                 self.currentState = .idle(location.locationName)
-                print("FetchData")
             } catch is CancellationError {
                 // Handle cancelled task here if needed
                 print("task cancelled")
