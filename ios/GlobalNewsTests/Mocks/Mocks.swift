@@ -104,7 +104,6 @@ extension NewsItem {
             title: title,
             source: source,
             pubDate: pubDate,
-            pubDateString: pubDateString,
             link: link,
             description: description
         )
@@ -122,7 +121,6 @@ func makeNewsItem(
         title: title,
         source: "",
         pubDate: pubDate,
-        pubDateString: pubDateString,
         link: link,
         description: ""
     )
