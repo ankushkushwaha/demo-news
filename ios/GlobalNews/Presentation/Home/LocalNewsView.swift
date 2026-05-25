@@ -15,7 +15,6 @@ struct SettingView: View {
 struct LocalNewsView: View {
     
     @ObservedObject var viewModel: LocalNewsViewModel
-    @State var openSafari = false
     
     init(viewModel: LocalNewsViewModel) {
         self.viewModel = viewModel
@@ -79,50 +78,4 @@ struct LocalNewsView: View {
         }
         .padding(.horizontal)
     }
-}
-
-struct NewsItemListView: View {
-    let items: [NewsItem]
-    let isBookmarked: (NewsItem) -> Bool
-    let toggleBookmarkAction: (NewsItem) -> Void
-    var refreshAction: (() async -> Void)?
-
-    @State private var showBookmarkError = false
-
-    @State private var selectedURL: String?
-    var body: some View {
-        List(items, id: \.id) { item in
-            
-            NewsItemView(
-                item: item,
-                isBookmarked: isBookmarked(item),
-                onBookmarkTap: {
-                toggleBookmarkAction(item)
-            })
-            
-            .listRowInsets(
-                EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
-            )
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-            .onTapGesture {
-                selectedURL = item.link
-            }
-        }
-        .listStyle(.plain)
-        .animation(.easeInOut(duration: 0.3), value: items)
-        .refreshable {
-            await refreshAction?()
-        }
-        .sheet(item: $selectedURL) { urlString in
-            if let url = URL(string: urlString) {
-                SafariView(url: url)
-                    .ignoresSafeArea()
-            }
-        }
-    }
-}
-
-extension String: @retroactive Identifiable {
-    public var id: String { self }
 }

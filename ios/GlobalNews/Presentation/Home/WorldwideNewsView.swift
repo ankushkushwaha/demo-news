@@ -3,8 +3,6 @@ import SwiftUI
 
 struct WorldwideNewsView: View {
     @ObservedObject var viewModel: WorldwideNewsViewModel
-
-    @State var openSafari = false
     
     init(viewModel: WorldwideNewsViewModel) {
         self.viewModel = viewModel
