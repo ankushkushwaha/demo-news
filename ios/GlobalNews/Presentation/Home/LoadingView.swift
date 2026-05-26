@@ -23,6 +23,7 @@ struct LoadingView: View {
                 }
                 Spacer()
             }
+            .ignoresSafeArea()
         }
         .onAppear { appeared = true }
     }

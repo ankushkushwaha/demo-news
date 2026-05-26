@@ -30,6 +30,7 @@ struct NewsItemListView: View {
             }
         }
         .listStyle(.plain)
+        .ignoresSafeArea()
         .animation(.easeInOut(duration: 0.3), value: items)
         .refreshable {
             await refreshAction?()
