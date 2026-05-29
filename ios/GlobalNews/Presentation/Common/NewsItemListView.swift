@@ -19,9 +19,8 @@ struct NewsItemListView: View {
                 onBookmarkTap: {
                 toggleBookmarkAction(item)
             })
-            
             .listRowInsets(
-                EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
+                EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8)
             )
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
@@ -30,7 +29,7 @@ struct NewsItemListView: View {
             }
         }
         .listStyle(.plain)
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: [.top, .leading, .trailing])
         .animation(.easeInOut(duration: 0.3), value: items)
         .refreshable {
             await refreshAction?()

@@ -55,7 +55,7 @@ struct NewsItemView: View {
             }
             .foregroundColor(.orange)
         }
-        .padding()
+        .padding(12)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(.systemBackground))

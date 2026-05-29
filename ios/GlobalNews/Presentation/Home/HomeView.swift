@@ -26,7 +26,8 @@ struct HomeView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 8)
 
             switch viewModel.selectedSegment {
             case .localNews:

@@ -34,7 +34,7 @@ struct LocalNewsView: View {
                         Text("Updated: \(lastUpdatedDate.relativeDisplayString)")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
                             .padding(.horizontal)
                     }
                 }
