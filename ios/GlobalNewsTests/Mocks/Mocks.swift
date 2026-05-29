@@ -7,9 +7,9 @@
 
 import Foundation
 import Combine
-@testable import GlobalNews
+@testable import News
 
-final class MockFetchNewsUseCase: FetchNewsUseCase {
+final class MockFetchNewsUseCase: FetchTopicNewsUseCase {
     var newsItems: [NewsItem]?
     var error: Error?
     private(set) var callCount = 0
@@ -18,6 +18,7 @@ final class MockFetchNewsUseCase: FetchNewsUseCase {
     func execute(topic: String?, location: UserLocation?) async throws -> [NewsItem] {
         callCount += 1
         capturedLocation = location
+                
         if let error {
             throw error
         }
@@ -36,36 +37,37 @@ final class MockToggleBookmarkUseCase: ToggleBookmarkUseCase, @unchecked Sendabl
 }
 
 final class MockObserveBookmarksUseCase: ObserveBookmarksUseCase {
-    private let subject = CurrentValueSubject<Set<NewsItem>, Never>([])
+    private let subject = CurrentValueSubject<[NewsItem], Never>([])
 
-    var publisher: AnyPublisher<Set<NewsItem>, Never> {
+    var publisher: AnyPublisher<[NewsItem], Never> {
         subject.eraseToAnyPublisher()
     }
 
-    func emit(_ value: Set<NewsItem>) {
-        subject.send(value)
+    func emit(_ items: [NewsItem]) {
+        subject.send(items)
     }
 }
 
 final class MockObserveLocationUseCase: ObserveLocationUseCase {
-    private let subject = PassthroughSubject<UserLocation, LocationRepositoryError>()
-    private(set) var attemptCallCount = 0
+    
+    private let subject = PassthroughSubject<Result<UserLocation, LocationRepositoryError>, Never>()
 
-    var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
+    var locationUpdatePublisher: AnyPublisher<Result<UserLocation, LocationRepositoryError>, Never> {
         subject.eraseToAnyPublisher()
     }
+    private(set) var attemptCallCount = 0
 
     func attemptToGetLocation() async {
         attemptCallCount += 1
     }
 
     func emit(_ location: UserLocation) {
-        subject.send(location)
+        subject.send(.success(location))
     }
     
     // Fixed: only accept LocationRepositoryError
     func emitError(_ error: LocationRepositoryError) {
-        subject.send(completion: .failure(error))
+        subject.send(.failure(error))
     }
 }
 
@@ -86,9 +88,40 @@ private func makeLocation(
     )
 }
 
+
+extension NewsItem {
+    static func stub(
+        id: String = "https://example.com",
+        title: String = "Title",
+        source: String = "Source",
+        pubDate: Date = Date(),
+        pubDateString: String = "1 hour ago",
+        link: String = "https://example.com",
+        description: String = "Description"
+    ) -> NewsItem {
+        NewsItem(
+            id: id,
+            title: title,
+            source: source,
+            pubDate: pubDate,
+            link: link,
+            description: description
+        )
+    }
+}
+
 func makeNewsItem(
     title: String = "Title",
-    link: String = "https://example.com"
+    link: String = "https://example.com",
+    pubDate: Date = Date(),
+    pubDateString: String = "1 hour ago"
 ) -> NewsItem {
-    NewsItem(title: title, source: "", pubDate: "1.1.2026", link: link, description: "")
+    NewsItem(
+        id: UUID().uuidString,
+        title: title,
+        source: "",
+        pubDate: pubDate,
+        link: link,
+        description: ""
+    )
 }

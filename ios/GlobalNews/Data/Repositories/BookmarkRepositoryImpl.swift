@@ -1,15 +1,8 @@
-//
-//  BookmarkRepositoryImpl.swift
-//  GlobalNews
-//
-//  Created by Ankush on 14.3.2026.
-//
-
 import Combine
 
 protocol BookmarkRepository {
-    var bookmarksPublisher: AnyPublisher<Set<NewsItem>, Never> { get }
-    func toggle(_ item: NewsItem) async
+    var bookmarksPublisher: AnyPublisher<[NewsItem], Never> { get }
+    func toggle(_ item: NewsItem) async throws
 }
 
 final class BookmarkRepositoryImpl: BookmarkRepository {
@@ -20,11 +13,43 @@ final class BookmarkRepositoryImpl: BookmarkRepository {
         self.store = store
     }
 
-    func toggle(_ item: NewsItem) async {
-        await store.toggle(item)
+    var bookmarksPublisher: AnyPublisher<[NewsItem], Never> {
+        store.publisher
     }
 
-    var bookmarksPublisher: AnyPublisher<Set<NewsItem>, Never> {
-        store.publisher
+    func toggle(_ item: NewsItem) async throws {
+        do {
+            try await store.toggle(item)
+        } catch let storeError as BookmarkStoreError {
+            throw map(storeError)
+        }
+    }
+
+    private func map(_ storeError: BookmarkStoreError) -> BookmarkRepositoryError {
+        switch storeError {
+        case .addBookmarkFailed:
+            return .addBookmarkFailed
+        case .removeBookmarkFailed:
+            return .removeBookmarkFailed
+        case .decodingFailed:
+            return .unknown
+        }
+    }
+}
+
+enum BookmarkRepositoryError: Error {
+    case addBookmarkFailed
+    case removeBookmarkFailed
+    case unknown
+
+    var errorDescription: String? {
+        switch self {
+        case .addBookmarkFailed: 
+            return "Failed to add bookmark."
+        case .removeBookmarkFailed:
+            return "Failed to remove bookmark."
+        case .unknown: return 
+            "An unknown error occurred."
+        }
     }
 }

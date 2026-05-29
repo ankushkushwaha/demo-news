@@ -1,16 +1,16 @@
 import Testing
 import Combine
 import Foundation
-@testable import GlobalNews
+@testable import News
 
-struct NewsViewModelTests {
+struct LocalNewsViewModelTests {
     
     private let scheduler: TestTaskScheduler!
     private let fetchUseCase: MockFetchNewsUseCase!
     private let locationUseCase: MockObserveLocationUseCase!
     private let toggleBookmarkUseCase: MockToggleBookmarkUseCase!
     private let observeBookmarksUsecase: MockObserveBookmarksUseCase!
-    private let sut: NewsViewModel!
+    private let sut: LocalNewsViewModel!
     
     init() async {
         scheduler = TestTaskScheduler()
@@ -19,7 +19,7 @@ struct NewsViewModelTests {
         toggleBookmarkUseCase = MockToggleBookmarkUseCase()
         observeBookmarksUsecase = MockObserveBookmarksUseCase()
         
-        sut = await NewsViewModel(
+        sut = await LocalNewsViewModel(
             toggleBookmarkUseCase: toggleBookmarkUseCase,
             observeBookmarksUseCase: observeBookmarksUsecase,
             fetchNewsUseCase: fetchUseCase,
@@ -45,7 +45,8 @@ struct NewsViewModelTests {
     @Test
     func locationUpdateSuccess_newsFetchSuccess() async {
 
-        let newsItem = await NewsItem(title: "title", source: "", pubDate: "1.1.2026", link: "", description: "")
+        let newsItem = makeNewsItem()
+        
         fetchUseCase.newsItems = [newsItem]
         
         let location = UserLocation(countryCode: "DE", countryName: "Germany", city: "Berlin", languageCode: "de")
@@ -70,7 +71,7 @@ struct NewsViewModelTests {
         fetchUseCase.error = NewsRepositoryError.networkFailure
         
         let location = UserLocation(countryCode: "DE", countryName: "Germany", city: "Berlin", languageCode: "de")
-        
+
         locationUseCase.emit(location)
         
         await scheduler.waitForAllTasks()
@@ -82,19 +83,20 @@ struct NewsViewModelTests {
         }
     }
         
-    @Test func isBookmarked_trueWhenPresent() {
+    @Test func isBookmarked_trueWhenPresent() async {
         let item = makeNewsItem()
         observeBookmarksUsecase.emit([item])
-        #expect(sut.isBookmarked(item))
+        let result = await sut.isBookmarked(item)
+        #expect(result)
     }
 
-    @Test func isBookmarked_falseAfterCleared() {
+    @Test func isBookmarked_falseAfterCleared() async {
         let item = makeNewsItem()
         observeBookmarksUsecase.emit([item])
-        #expect(sut.isBookmarked(item))
+        #expect(await sut.isBookmarked(item))
         
         observeBookmarksUsecase.emit([])
-        #expect(!sut.isBookmarked(item))
-
+        let result = await sut.isBookmarked(item)
+        #expect(result == false)
     }
 }

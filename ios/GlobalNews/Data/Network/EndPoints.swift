@@ -1,11 +1,15 @@
 import Foundation
 
 enum EndPoints {
-    case newsFeed(NewsQuery)
-
+    case search(NewsQuery)
+    case all
+    
     var url: URL? {
         switch self {
-        case .newsFeed(let query):
+        case .all:
+            return URL(string: Self.baseUrl + path)
+
+        case .search(let query):
             var components = URLComponents(string: Self.baseUrl + path)
             components?.queryItems = [
                 URLQueryItem(name: "q", value: query.q),
@@ -19,7 +23,9 @@ enum EndPoints {
 
     private var path: String {
         switch self {
-        case .newsFeed:
+        case .all:
+            "rss"
+        case .search:
             "rss/search"
         }
     }

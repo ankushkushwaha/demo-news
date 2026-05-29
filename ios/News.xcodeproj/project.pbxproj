@@ -14,19 +14,20 @@
 			remoteGlobalIDString = AC3084462F48C9D000B974A5;
 			remoteInfo = GlobalNews;
 		};
-		AC30845F2F48C9D200B974A5 /* PBXContainerItemProxy */ = {
+		AC75BEB12F6DE9EC002163DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC30843F2F48C9D000B974A5 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = AC3084462F48C9D000B974A5;
-			remoteInfo = GlobalNews;
+			remoteInfo = News;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		AC3084472F48C9D000B974A5 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC3084542F48C9D200B974A5 /* NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC30845E2F48C9D200B974A5 /* NewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC75BE972F6DE946002163DC /* News.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = News.xctestplan; sourceTree = "<group>"; };
+		AC75BEAB2F6DE9EC002163DC /* NewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -40,9 +41,9 @@
 			path = GlobalNewsTests;
 			sourceTree = "<group>";
 		};
-		AC3084612F48C9D200B974A5 /* GlobalNewsUITests */ = {
+		AC75BEAC2F6DE9EC002163DC /* NewsUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = GlobalNewsUITests;
+			path = NewsUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -62,7 +63,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AC30845B2F48C9D200B974A5 /* Frameworks */ = {
+		AC75BEA82F6DE9EC002163DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -75,9 +76,10 @@
 		AC30843E2F48C9D000B974A5 = {
 			isa = PBXGroup;
 			children = (
+				AC75BE972F6DE946002163DC /* News.xctestplan */,
 				AC3084492F48C9D000B974A5 /* GlobalNews */,
 				AC3084572F48C9D200B974A5 /* GlobalNewsTests */,
-				AC3084612F48C9D200B974A5 /* GlobalNewsUITests */,
+				AC75BEAC2F6DE9EC002163DC /* NewsUITests */,
 				AC3084482F48C9D000B974A5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,7 +89,7 @@
 			children = (
 				AC3084472F48C9D000B974A5 /* News.app */,
 				AC3084542F48C9D200B974A5 /* NewsTests.xctest */,
-				AC30845E2F48C9D200B974A5 /* NewsUITests.xctest */,
+				AC75BEAB2F6DE9EC002163DC /* NewsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,27 +142,27 @@
 			productReference = AC3084542F48C9D200B974A5 /* NewsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AC30845D2F48C9D200B974A5 /* NewsUITests */ = {
+		AC75BEAA2F6DE9EC002163DC /* NewsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC30846E2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "NewsUITests" */;
+			buildConfigurationList = AC75BEB32F6DE9EC002163DC /* Build configuration list for PBXNativeTarget "NewsUITests" */;
 			buildPhases = (
-				AC30845A2F48C9D200B974A5 /* Sources */,
-				AC30845B2F48C9D200B974A5 /* Frameworks */,
-				AC30845C2F48C9D200B974A5 /* Resources */,
+				AC75BEA72F6DE9EC002163DC /* Sources */,
+				AC75BEA82F6DE9EC002163DC /* Frameworks */,
+				AC75BEA92F6DE9EC002163DC /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AC3084602F48C9D200B974A5 /* PBXTargetDependency */,
+				AC75BEB22F6DE9EC002163DC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				AC3084612F48C9D200B974A5 /* GlobalNewsUITests */,
+				AC75BEAC2F6DE9EC002163DC /* NewsUITests */,
 			);
 			name = NewsUITests;
 			packageProductDependencies = (
 			);
-			productName = GlobalNewsUITests;
-			productReference = AC30845E2F48C9D200B974A5 /* NewsUITests.xctest */;
+			productName = NewsUITests;
+			productReference = AC75BEAB2F6DE9EC002163DC /* NewsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -180,7 +182,7 @@
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = AC3084462F48C9D000B974A5;
 					};
-					AC30845D2F48C9D200B974A5 = {
+					AC75BEAA2F6DE9EC002163DC = {
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = AC3084462F48C9D000B974A5;
 					};
@@ -202,7 +204,7 @@
 			targets = (
 				AC3084462F48C9D000B974A5 /* News */,
 				AC3084532F48C9D200B974A5 /* NewsTests */,
-				AC30845D2F48C9D200B974A5 /* NewsUITests */,
+				AC75BEAA2F6DE9EC002163DC /* NewsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -222,7 +224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AC30845C2F48C9D200B974A5 /* Resources */ = {
+		AC75BEA92F6DE9EC002163DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -246,7 +248,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AC30845A2F48C9D200B974A5 /* Sources */ = {
+		AC75BEA72F6DE9EC002163DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -261,10 +263,10 @@
 			target = AC3084462F48C9D000B974A5 /* News */;
 			targetProxy = AC3084552F48C9D200B974A5 /* PBXContainerItemProxy */;
 		};
-		AC3084602F48C9D200B974A5 /* PBXTargetDependency */ = {
+		AC75BEB22F6DE9EC002163DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AC3084462F48C9D000B974A5 /* News */;
-			targetProxy = AC30845F2F48C9D200B974A5 /* PBXContainerItemProxy */;
+			targetProxy = AC75BEB12F6DE9EC002163DC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -407,7 +409,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -452,7 +454,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -527,7 +529,7 @@
 			};
 			name = Release;
 		};
-		AC30846F2F48C9D200B974A5 /* Debug */ = {
+		AC75BEB42F6DE9EC002163DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -535,24 +537,21 @@
 				DEVELOPMENT_TEAM = Y833H6V839;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.test.GlobalNewsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.test.NewsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = GlobalNews;
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = News;
 			};
 			name = Debug;
 		};
-		AC3084702F48C9D200B974A5 /* Release */ = {
+		AC75BEB52F6DE9EC002163DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -560,20 +559,18 @@
 				DEVELOPMENT_TEAM = Y833H6V839;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.test.GlobalNewsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.test.NewsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = GlobalNews;
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = News;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -607,11 +604,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC30846E2F48C9D200B974A5 /* Build configuration list for PBXNativeTarget "NewsUITests" */ = {
+		AC75BEB32F6DE9EC002163DC /* Build configuration list for PBXNativeTarget "NewsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AC30846F2F48C9D200B974A5 /* Debug */,
-				AC3084702F48C9D200B974A5 /* Release */,
+				AC75BEB42F6DE9EC002163DC /* Debug */,
+				AC75BEB52F6DE9EC002163DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

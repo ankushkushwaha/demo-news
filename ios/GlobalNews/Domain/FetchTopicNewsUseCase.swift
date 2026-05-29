@@ -1,15 +1,15 @@
 import Combine
 
-protocol FetchNewsUseCase {
+protocol FetchTopicNewsUseCase {
     func execute(topic: String?, location: UserLocation?) async throws -> [NewsItem]
 }
 
-final class FetchNewsUseCaseImpl: FetchNewsUseCase {
+final class FetchTopicNewsUseCaseImpl: FetchTopicNewsUseCase {
     
     private let newsRepository: NewsRepository
 
     init(
-        newsRepository: NewsRepository = NewsRepositoryImpl(),
+        newsRepository: NewsRepository
     ) {
         self.newsRepository = newsRepository
     }
@@ -20,6 +20,7 @@ final class FetchNewsUseCaseImpl: FetchNewsUseCase {
             hl: location?.hl ?? "en-US",
             gl: location?.gl ?? "US"
         )
-        return try await newsRepository.fetchNews(query: query)
+        let items = try await newsRepository.fetchNews(query: query)
+        return items.sorted { $0.pubDate > $1.pubDate }
     }
 }

@@ -15,29 +15,50 @@ final class AppContainer: ObservableObject {
         self.services = services
     }
     
-    func makeLocationRepository() -> LocationRepository {
+    private func makeLocationRepository() -> LocationRepository {
         LocationRepositoryImpl(service: services.locationService)
     }
     
-    func makeNewsRepository() -> NewsRepository {
+    private func makeNewsRepository() -> NewsRepository {
         NewsRepositoryImpl(service: services.newsService)
     }
     
-    func makeBookmarkRepository() -> BookmarkRepository {
+    private func makeBookmarkRepository() -> BookmarkRepository {
         BookmarkRepositoryImpl(store: states.bookmarkStore)
     }
 
-    func makeNewsViewModel() -> NewsViewModel {
-        NewsViewModel(
+    private func makeAnalyticsService() -> AnalyticsService {
+        services.analyticsService
+    }
+
+    func makeLocalNewsViewModel() -> LocalNewsViewModel {
+        LocalNewsViewModel(
             toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(
                 repository: makeBookmarkRepository()
             ),
             observeBookmarksUseCase: ObserveBookmarksUseCaseImpl(
                 repository: makeBookmarkRepository()
             ),
-            fetchNewsUseCase: FetchNewsUseCaseImpl(),
+            fetchNewsUseCase: FetchTopicNewsUseCaseImpl(
+                newsRepository: makeNewsRepository()
+            ),
             observeLocationUseCase: ObserveLocationUseCaseImpl(
                 locationRepository: makeLocationRepository()
+            ),
+            scheduler: DefaultTaskScheduler()
+        )
+    }
+    func makeWorldwideNewsViewModel() -> WorldwideNewsViewModel {
+        WorldwideNewsViewModel(
+            toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(
+                repository: makeBookmarkRepository()
+            ),
+            observeBookmarksUseCase: ObserveBookmarksUseCaseImpl(
+                repository: makeBookmarkRepository()
+            ),
+            fetchNewsUseCase: FetchWorldwideNewsUseCaseImpl(
+                newsRepository: makeNewsRepository(),
+                analyticsService: makeAnalyticsService()
             ),
             scheduler: DefaultTaskScheduler()
         )
@@ -56,7 +77,9 @@ final class AppContainer: ObservableObject {
     
     func makeSearchViewModel() -> SearchViewModel {
         SearchViewModel(
-            fetchNewsUseCase: FetchNewsUseCaseImpl(),
+            fetchNewsUseCase: FetchTopicNewsUseCaseImpl(
+                newsRepository: makeNewsRepository()
+            ),
             toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(
                 repository: makeBookmarkRepository()
             ),
@@ -69,5 +92,4 @@ final class AppContainer: ObservableObject {
             
         )
     }
-
 }

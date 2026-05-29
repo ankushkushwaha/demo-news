@@ -1,9 +1,7 @@
-
 import Combine
 
-
 protocol ObserveBookmarksUseCase {
-    var publisher: AnyPublisher<Set<NewsItem>, Never> { get }
+    var publisher: AnyPublisher<[NewsItem], Never> { get }
 }
 
 final class ObserveBookmarksUseCaseImpl: ObserveBookmarksUseCase {
@@ -13,7 +11,7 @@ final class ObserveBookmarksUseCaseImpl: ObserveBookmarksUseCase {
         self.repository = repository
     }
 
-    var publisher: AnyPublisher<Set<NewsItem>, Never> {
+    var publisher: AnyPublisher<[NewsItem], Never> {
         repository.bookmarksPublisher
     }
 }

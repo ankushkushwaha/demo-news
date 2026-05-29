@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 @MainActor
-final class SearchViewModel: ObservableObject {
+final class SearchViewModel: ObservableObject, AlertPresentable {
     
     enum ViewState: Equatable {
         case idle
@@ -13,19 +13,21 @@ final class SearchViewModel: ObservableObject {
     
     @Published var searchQuery: String = ""
     @Published private(set) var items: [NewsItem] = []
-    @Published private(set) var bookmarks: Set<NewsItem> = []
     @Published private(set) var currentState: ViewState = .idle
     
+    @Published private(set) var bookmarks: [NewsItem] = []
+    @Published var alertMessage: String?
+
     private var searchTask: Task<Void, Never>?
     private var cancellables: Set<AnyCancellable> = []
     
-    private let fetchNewsUseCase: FetchNewsUseCase
+    private let fetchNewsUseCase: FetchTopicNewsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
     private let observeBookmarksUseCase: ObserveBookmarksUseCase
     private let observeLocationUseCase: ObserveLocationUseCase
     
     init(
-        fetchNewsUseCase: FetchNewsUseCase,
+        fetchNewsUseCase: FetchTopicNewsUseCase,
         toggleBookmarkUseCase: ToggleBookmarkUseCase,
         observeBookmarksUseCase: ObserveBookmarksUseCase,
         observeLocationUseCase: ObserveLocationUseCase
@@ -46,13 +48,14 @@ final class SearchViewModel: ObservableObject {
         
         let locationPublisher = observeLocationUseCase.locationUpdatePublisher
             .receive(on: DispatchQueue.main)
-            .map { Optional($0) }
-            .catch { _ in Just(nil) }
+            .map { result -> UserLocation? in
+                if case .success(let location) = result { return location }
+                return nil
+            }
             .prepend(nil)
         
         $searchQuery
-            .debounce(for: .milliseconds(500),
-                      scheduler: DispatchQueue.main)
+            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
             .removeDuplicates()
             .combineLatest(locationPublisher)
             .sink { [weak self] searchQuery, location in
@@ -73,9 +76,18 @@ final class SearchViewModel: ObservableObject {
     }
     
     func toggleBookmark(_ item: NewsItem) {
-        Task { await toggleBookmarkUseCase.execute(item: item) }
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await toggleBookmarkUseCase.execute(item: item)
+            } catch let error as BookmarkRepositoryError {
+                self.alertMessage = error.errorDescription
+            } catch {
+                self.alertMessage = "Unexpected error occurred."
+            }
+        }
     }
-    
+
     private func search(query: String, location: UserLocation?) {
         searchTask?.cancel()
         searchTask = Task { [weak self] in

@@ -10,7 +10,7 @@ struct AppMainContainerView: View {
                 .navigationDestination(for: Router.Route.self) { route in
                     switch route {
                     case .detail(let url):
-                        DetailView(urlString: url)
+                        NewsDetailView(urlString: url)
                     case .setting:
                         SettingView()
                     }
@@ -26,13 +26,15 @@ struct AppTabView: View {
     var body: some View {
         VStack {
             TabView {
-                NewsView(
-                    viewModel: container.makeNewsViewModel()
+                HomeView(
+                    viewModel: HomeViewModel(),
+                    localViewModel: container.makeLocalNewsViewModel(),
+                    worldwideViewModel: container.makeWorldwideNewsViewModel()
                 )
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-                
+
                 SearchView(
                     viewModel: container.makeSearchViewModel()
                 )
@@ -44,7 +46,7 @@ struct AppTabView: View {
                     viewModel: container.makeBookmarkViewModel()
                 )
                 .tabItem {
-                    Label("Bookmark", systemImage: "bookmark")
+                    Label("Bookmarks", systemImage: "bookmark")
                 }
             }
         }

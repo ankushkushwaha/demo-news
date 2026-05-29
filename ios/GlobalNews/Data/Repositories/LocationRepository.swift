@@ -2,19 +2,23 @@ import Foundation
 import Combine
 
 protocol LocationRepository {
-    var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> { get }
+    var locationUpdatePublisher: AnyPublisher<Result<UserLocation, LocationRepositoryError>, Never> { get }
     func getLocation() async throws -> UserLocation
 }
 
 final class LocationRepositoryImpl: LocationRepository {
     
-    var locationUpdatePublisher: AnyPublisher<UserLocation, LocationRepositoryError> {
+    var locationUpdatePublisher: AnyPublisher<Result<UserLocation, LocationRepositoryError>, Never> {
         service.locationUpdatePublisher
-            .map { $0.toLocation() }
-            .mapError(mapToRepositoryError)
+            .map { result -> Result<UserLocation, LocationRepositoryError> in
+                result
+                    .map { $0.toLocation() }
+                    .mapError { self.mapToRepositoryError($0) }
+            }
             .eraseToAnyPublisher()
     }
     
+
     private let service: LocationService
     
     init(service: LocationService) {
