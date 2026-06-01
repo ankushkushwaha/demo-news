@@ -32,7 +32,9 @@ struct SearchView: View {
                 .accessibilityLabel("Enter text to")
 
             if !viewModel.searchQuery.isEmpty {
-                Button { viewModel.searchQuery = "" } label: {
+                Button {
+                    viewModel.searchQuery = ""
+                } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.secondary)
                 }
