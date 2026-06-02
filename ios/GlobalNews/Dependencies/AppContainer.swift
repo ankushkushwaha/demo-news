@@ -15,15 +15,15 @@ final class AppContainer: ObservableObject {
         self.services = services
     }
     
-    func makeLocationRepository() -> LocationRepository {
+    private func makeLocationRepository() -> LocationRepository {
         LocationRepositoryImpl(service: services.locationService)
     }
     
-    func makeNewsRepository() -> NewsRepository {
+    private func makeNewsRepository() -> NewsRepository {
         NewsRepositoryImpl(service: services.newsService)
     }
     
-    func makeBookmarkRepository() -> BookmarkRepository {
+    private func makeBookmarkRepository() -> BookmarkRepository {
         BookmarkRepositoryImpl(store: states.bookmarkStore)
     }
 
