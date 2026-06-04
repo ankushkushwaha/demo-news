@@ -17,7 +17,8 @@ enum AppContainerFactory {
                     locationService: MockLocationService(),
                     newsService: NewsServiceImpl(
                         networkSession: MockNetworkSession.success()
-                    )
+                    ),
+                    analyticsService: MockAnalyticsService()
                 )
             )
             
@@ -28,7 +29,8 @@ enum AppContainerFactory {
                     locationService: MockLocationService(),
                     newsService: NewsServiceImpl(
                         networkSession: MockNetworkSession.error()
-                    )
+                    ),
+                    analyticsService: MockAnalyticsService()
                 )
             )
             
@@ -39,7 +41,8 @@ enum AppContainerFactory {
                     locationService: MockLocationService(),
                     newsService: NewsServiceImpl(
                         networkSession: MockNetworkSession.empty()
-                    )
+                    ),
+                    analyticsService: MockAnalyticsService()
                 )
             )
         }

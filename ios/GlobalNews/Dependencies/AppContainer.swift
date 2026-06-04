@@ -27,6 +27,10 @@ final class AppContainer: ObservableObject {
         BookmarkRepositoryImpl(store: states.bookmarkStore)
     }
 
+    private func makeAnalyticsService() -> AnalyticsService {
+        services.analyticsService
+    }
+
     func makeLocalNewsViewModel() -> LocalNewsViewModel {
         LocalNewsViewModel(
             toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(
@@ -53,7 +57,8 @@ final class AppContainer: ObservableObject {
                 repository: makeBookmarkRepository()
             ),
             fetchNewsUseCase: FetchWorldwideNewsUseCaseImpl(
-                newsRepository: makeNewsRepository()
+                newsRepository: makeNewsRepository(),
+                analyticsService: makeAnalyticsService()
             ),
             scheduler: DefaultTaskScheduler()
         )
