@@ -12,10 +12,10 @@ extension AnalyticsService {
         print(
 """
 -----------------
-ServiceName: \(Self.self)
+AnalyticsService: \(Self.self)
 EventName: \(eventName)
 Params: \(params)
---------------
+
 """
         )
 #endif
